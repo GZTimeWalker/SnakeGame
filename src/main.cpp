@@ -12,6 +12,7 @@ int main()
     {
         Game* game = new Game();
         game->Main();
+        delete game; // May not be used because of the loop.
     }
     catch (std::exception e)
     {

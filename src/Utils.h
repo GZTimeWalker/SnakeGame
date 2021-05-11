@@ -27,6 +27,7 @@ namespace GZ {
 		GOLD = B_YELLOW | RED,
 		PORTAL = B_CYAN | BLUE,
 	};
+
 	struct Pos 
 	{
 		int x;
@@ -35,6 +36,7 @@ namespace GZ {
 			return x == other.x && y == other.y;
 		}
 	};
+
 	enum class Direction: int
 	{
 		UP = 0,
@@ -42,6 +44,7 @@ namespace GZ {
 		LEFT = 2,
 		RIGHT = 3
 	};
+
 	class Utils
 	{
 	public:

@@ -62,7 +62,6 @@ void GZ::Utils::Setting()
 	char ch;
 	std::cin >> ch;
 	THROUGHWALL = ch == 'y';
-	std::cout << ">>> Press any key to return." << std::endl;
 }
 
 void GZ::Utils::Resize()
