@@ -123,7 +123,7 @@ int GZ::Snake::Move(Pos food, std::vector<Item*>& items)
 	if (!IsSafe(next))
 	{
 		isAlive = false;
-		return false;
+		return 0;
 	}
 
 	int score = 0;

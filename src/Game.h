@@ -8,7 +8,6 @@ namespace GZ {
 	class Game
 	{
 	private:
-
 		unsigned long long score = 0;
 		unsigned long long record = 0;
 		unsigned int speed = 150;
@@ -30,7 +29,6 @@ namespace GZ {
 		void ListenKeyBoard();
 
 	public:
-
 		Game();
 		~Game();
 		void Main();

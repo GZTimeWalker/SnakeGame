@@ -5,31 +5,34 @@
 #include <cstdio>
 #include <iostream>
 
-int GZ::Utils::HEIGHT = 32;
-int GZ::Utils::WIDTH = 70;
-int GZ::Utils::ITEMCOUNT = 3;
-int GZ::Utils::ITEMRATE = 50;
-bool GZ::Utils::THROUGHWALL = false;
+using namespace GZ;
 
-void GZ::Utils::To(int x, int y)
+int Utils::HEIGHT = 32;
+int Utils::WIDTH = 70;
+int Utils::ITEMCOUNT = 3;
+int Utils::ITEMRATE = 50;
+bool Utils::THROUGHWALL = false;
+
+void Utils::To(int x, int y)
 {
 	COORD pos = { x + X_OFFSET, y + Y_OFFSET };
 	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleCursorPosition(handle, pos);
 }
 
-void GZ::Utils::To(Pos pos)
+void Utils::To(Pos pos)
 {
 	To(pos.x, pos.y);
 }
 
-void GZ::Utils::SetColor(Color color)
+void Utils::SetColor(Color color)
 {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)color);
 }
 
-void GZ::Utils::Setting()
+void Utils::Setting()
 {
+	system("cls");
 	SetColor(Color::WHITE);
 	int input;
 	std::cout << ">>> Please input your game size:" << std::endl;
@@ -64,14 +67,15 @@ void GZ::Utils::Setting()
 	THROUGHWALL = ch == 'y';
 }
 
-void GZ::Utils::Resize()
+void Utils::Resize()
 {
+	system("cls");
 	char buffer[32];
 	sprintf_s(buffer, "mode con:cols=%d lines=%d", WIDTH + X_OFFSET, HEIGHT + Y_OFFSET);
 	system(buffer);
 }
 
-void GZ::Utils::Init()
+void Utils::Init()
 {
 	Resize();
 	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);

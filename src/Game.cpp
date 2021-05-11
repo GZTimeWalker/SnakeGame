@@ -6,7 +6,9 @@
 #include <iostream>
 #include <iomanip>
 
-GZ::Game::Game()
+using namespace GZ;
+
+Game::Game()
 {
 	snake = new Snake();
 	snake->Draw();
@@ -17,14 +19,14 @@ GZ::Game::Game()
 	std::cout << "Press S to start!   " << std::endl;
 }
 
-GZ::Game::~Game()
+Game::~Game()
 {
 	delete snake;
 	for (auto& item : items)
 		delete item;
 }
 
-void GZ::Game::Main()
+void Game::Main()
 {
 	while (true)
 	{
@@ -35,9 +37,7 @@ void GZ::Game::Main()
 				Run();
 			else if (ch == 'c' || ch == 'C')
 			{
-				system("cls");
 				Utils::Setting();
-				system("cls");
 				Utils::Resize();
 				Clear();
 				Utils::SetColor(Color::RED);
@@ -48,7 +48,7 @@ void GZ::Game::Main()
 	}
 }
 
-void GZ::Game::DrawMap()
+void Game::DrawMap()
 {
 	Utils::SetColor(Color::YELLOW);
 	Utils::To(-Utils::X_OFFSET, -Utils::Y_OFFSET);
@@ -90,7 +90,7 @@ void GZ::Game::DrawMap()
 }
 
 
-void GZ::Game::Clear()
+void Game::Clear()
 {
 	system("cls");
 	DrawMap();
@@ -104,7 +104,7 @@ void GZ::Game::Clear()
 	items.clear();
 }
 
-void GZ::Game::Run()
+void Game::Run()
 {
 	isRunning = true;
 
@@ -130,9 +130,7 @@ void GZ::Game::Run()
 				}
 				else if (ch == 'c' || ch == 'C')
 				{
-					system("cls");
 					Utils::Setting();
-					system("cls");
 					Utils::Resize();
 					Clear();
 					Utils::SetColor(Color::RED);
@@ -171,7 +169,7 @@ void GZ::Game::Run()
 	isRunning = false;
 }
 
-void GZ::Game::PrintInfo()
+void Game::PrintInfo()
 {
 	Utils::To(-Utils::X_OFFSET, 3);
 	std::cout << std::setiosflags(std::ios::right);
@@ -199,7 +197,7 @@ void GZ::Game::PrintInfo()
 	std::cout << std::setiosflags(std::ios::left);
 }
 
-void GZ::Game::GameOver()
+void Game::GameOver()
 {
 	Utils::SetColor(Color::RED);
 	std::string gameover[] = {  "  ______                                    ",
@@ -228,7 +226,7 @@ void GZ::Game::GameOver()
 	}
 }
 
-GZ::Pos GZ::Game::GenPos()
+Pos Game::GenPos()
 {
 	Pos pos;
 	do {
@@ -237,7 +235,7 @@ GZ::Pos GZ::Game::GenPos()
 	return pos;
 }
 
-void GZ::Game::GenFood()
+void Game::GenFood()
 {
 	food = GenPos();
 	Utils::SetColor(Color::FOOD);
@@ -245,7 +243,7 @@ void GZ::Game::GenFood()
 	std::cout << ' ';
 }
 
-void GZ::Game::GenItem()
+void Game::GenItem()
 {
 	if (rand() % 10000 < Utils::ITEMRATE && items.size() < Utils::ITEMCOUNT)
 	{
@@ -265,7 +263,7 @@ void GZ::Game::GenItem()
 	}
 }
 
-bool GZ::Game::ItemOccupying(Pos pos)
+bool Game::ItemOccupying(Pos pos)
 {
 	for (auto& item : items)
 		if (pos == item->pos)
@@ -273,7 +271,7 @@ bool GZ::Game::ItemOccupying(Pos pos)
 	return false;
 }
 
-void GZ::Game::ListenKeyBoard()
+void Game::ListenKeyBoard()
 {
 	if (_kbhit())
 	{
@@ -297,9 +295,7 @@ void GZ::Game::ListenKeyBoard()
 			break;
 		case 'c':
 		case 'C':
-			system("cls");
 			Utils::Setting();
-			system("cls");
 			Utils::Resize();
 			Clear();
 			Utils::SetColor(Color::RED);

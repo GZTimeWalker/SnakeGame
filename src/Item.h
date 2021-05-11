@@ -9,6 +9,7 @@ namespace GZ {
 		Item(Pos p,int s) : pos(p), score(s) {};
 		Pos pos;
 		int score;
+
 		virtual void Get(Snake* snake) = 0;
 		virtual void Show() = 0;
 	};
@@ -16,6 +17,7 @@ namespace GZ {
 	class Portal : public Item {
 	private:
 		bool Detect(Pos pos, Snake* snake);
+
 	public:
 		Portal(Pos p): Item(p, 20) {}
 		void Show();

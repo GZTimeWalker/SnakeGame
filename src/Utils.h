@@ -55,6 +55,7 @@ namespace GZ {
 		static int ITEMCOUNT;
 		static int ITEMRATE;
 		static bool THROUGHWALL;
+
 		static void Init();
 		static void To(int x, int y);
 		static void To(Pos pos);

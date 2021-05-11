@@ -2,14 +2,16 @@
 
 #include <iostream>
 
-void GZ::Portal::Show()
+using namespace GZ;
+
+void Portal::Show()
 {
 	Utils::To(pos);
 	Utils::SetColor(Color::PORTAL);
 	std::cout << "@";
 }
 
-bool GZ::Portal::Detect(Pos pos, Snake* snake)
+bool Portal::Detect(Pos pos, Snake* snake)
 {
 	Pos next;
 	for (int i = 0; i < 4; ++i)
@@ -38,7 +40,7 @@ bool GZ::Portal::Detect(Pos pos, Snake* snake)
 	return false;
 }
 
-void GZ::Portal::Get(Snake* snake)
+void Portal::Get(Snake* snake)
 {
 	Pos randPos;
 	do{
@@ -50,14 +52,14 @@ void GZ::Portal::Get(Snake* snake)
 	std::cout << " ";
 }
 
-void GZ::Gold::Show()
+void Gold::Show()
 {
 	Utils::To(pos);
 	Utils::SetColor(Color::GOLD);
 	std::cout << "G";
 }
 
-void GZ::Gold::Get(Snake* snake)
+void Gold::Get(Snake* snake)
 {
 	snake->AddLength(5);
 }

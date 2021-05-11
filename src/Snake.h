@@ -18,7 +18,6 @@ namespace GZ {
 		bool IsSafe(Pos next);
 
 	public:
-
 		Direction Toward;
 		Pos Head;
 
