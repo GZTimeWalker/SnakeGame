@@ -8,7 +8,7 @@ using namespace GZ;
 int main(int argc, char* argv[])
 {
     Utils::Init();
-    if (argc > 1 && strcmp(argv[1], "-d"))
+    if (argc > 1 && strcmp(argv[1], "-d") == 0)
         Utils::DEBUG = true;
     try
     {
