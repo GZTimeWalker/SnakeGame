@@ -22,7 +22,7 @@ Snake::Snake()
     }
 }
 
-bool GZ::Snake::HasPos(Pos pos)
+bool Snake::HasPos(Pos pos)
 {
     for (auto& p : body)
         if (pos == p)
@@ -30,12 +30,12 @@ bool GZ::Snake::HasPos(Pos pos)
     return false;
 }
 
-bool GZ::Snake::Alive()
+bool Snake::Alive()
 {
     return isAlive;
 }
 
-void GZ::Snake::ChangeDir(char dir)
+void Snake::ChangeDir(char dir)
 {
     if (!isascii(dir))
     {
@@ -86,7 +86,7 @@ void GZ::Snake::ChangeDir(char dir)
     }
 }
 
-int GZ::Snake::Move(Pos food, std::vector<Item*>& items)
+int Snake::Move(Pos food, std::vector<Item*>& items)
 {
     Pos next = Pos(body[length - 1]);
     switch (Toward)
@@ -158,7 +158,7 @@ int GZ::Snake::Move(Pos food, std::vector<Item*>& items)
     return score;
 }
 
-void GZ::Snake::Update(bool trim)
+void Snake::Update(bool trim)
 {
     Utils::SetColor(Color::YELLOW);
     Utils::To(body[length - 1]);
@@ -178,7 +178,7 @@ void GZ::Snake::Update(bool trim)
     length += 1;
 }
 
-void GZ::Snake::Draw()
+void Snake::Draw()
 {
     Utils::SetColor(Color::YELLOW);
     for (unsigned int i = 0; i < length - 1; ++i)
@@ -192,13 +192,13 @@ void GZ::Snake::Draw()
     Utils::SetColor(Color::ORIGIN);
 }
 
-void GZ::Snake::AddLength(int len)
+void Snake::AddLength(int len)
 {
     trimTail = false;
     keepLen += len;
 }
 
-bool GZ::Snake::IsSafe(Pos next)
+bool Snake::IsSafe(Pos next)
 {
     bool succ = next.x > 0 && next.y > 0 && next.x < Utils::WIDTH - 1&& next.y < Utils::HEIGHT - 1;
     if (!succ)
@@ -209,7 +209,7 @@ bool GZ::Snake::IsSafe(Pos next)
     return true;
 }
 
-unsigned int GZ::Snake::Length()
+unsigned int Snake::Length()
 {
     return length;
 }
