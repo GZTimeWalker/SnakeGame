@@ -87,3 +87,51 @@ void Utils::Init()
     SetConsoleCursorInfo(handle, &CursorInfo);
     srand((unsigned int)time(0));
 }
+
+void GZ::Utils::Print(std::string msg)
+{
+    std::cout << msg;
+}
+
+void GZ::Utils::Print(std::string msg, Pos pos)
+{
+    To(pos);
+    std::cout << msg;
+}
+
+void GZ::Utils::Print(std::string msg, Color color)
+{
+    SetColor(color);
+    std::cout << msg;
+}
+
+void GZ::Utils::Print(std::string msg, Pos pos, Color color)
+{
+    To(pos);
+    SetColor(color);
+    std::cout << msg;
+}
+
+void GZ::Utils::PrintLine(std::string msg)
+{
+    std::cout << msg << std::endl;
+}
+
+void GZ::Utils::PrintLine(std::string msg, Pos pos)
+{
+    To(pos);
+    std::cout << msg << std::endl;
+}
+
+void GZ::Utils::PrintLine(std::string msg, Color color)
+{
+    SetColor(color);
+    std::cout << msg << std::endl;
+}
+
+void GZ::Utils::PrintLine(std::string msg, Pos pos, Color color)
+{
+    To(pos);
+    SetColor(color);
+    std::cout << msg << std::endl;
+}

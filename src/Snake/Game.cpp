@@ -13,10 +13,7 @@ Game::Game()
     snake = new Snake();
     snake->Draw();
     DrawMap();
-
-    Utils::SetColor(Color::RED);
-    Utils::To(-Utils::X_OFFSET, 22);
-    std::cout << "Press S to start!   " << std::endl;
+    Utils::PrintLine("Press S to start!   ", { -Utils::X_OFFSET, 22 }, Color::RED);
 }
 
 Game::~Game()
@@ -40,9 +37,7 @@ void Game::Main()
                 Utils::Setting();
                 Utils::Resize();
                 Clear();
-                Utils::SetColor(Color::RED);
-                Utils::To(-Utils::X_OFFSET, 22);
-                std::cout << "Press S to start!   " << std::endl;
+                Utils::PrintLine("Press S to start!   ", { -Utils::X_OFFSET, 22 }, Color::RED);
             }
         }
     }
@@ -51,42 +46,41 @@ void Game::Main()
 void Game::DrawMap()
 {
     Utils::SetColor(Color::YELLOW);
-    Utils::To(-Utils::X_OFFSET, -Utils::Y_OFFSET);
-    std::string blank((Utils::WIDTH - Utils::X_OFFSET) / 2 - 3, ' ');
-    std::cout << blank << "    ____   __                 _____  _   __ ___     __ __  ______" << std::endl
-              << blank << "   / __ \\ / /____ _ __  __   / ___/ / | / //   |   / //_/ / ____/" << std::endl
-              << blank << "  / /_/ // // __ `// / / /   \\__ \\ /  |/ // /| |  / ,<   / __/   " << std::endl
-              << blank << " / ____// // /_/ // /_/ /   ___/ // /|  // ___ | / /| | / /___   " << std::endl
-              << blank << "/_/    /_/ \\__,_/ \\__, /   /____//_/ |_//_/  |_|/_/ |_|/_____/   " << std::endl
-              << blank << "                 /____/                                          " << std::endl;
+    std::string title[] = { "    ____   __                 _____  _   __ ___     __ __  ______",
+                            "   / __ \\ / /____ _ __  __   / ___/ / | / //   |   / //_/ / ____/",
+                            "  / /_/ // // __ `// / / /   \\__ \\ /  |/ // /| |  / ,<   / __/   ",
+                            " / ____// // /_/ // /_/ /   ___/ // /|  // ___ | / /| | / /___   ",
+                            "/_/    /_/ \\__,_/ \\__, /   /____//_/ |_//_/  |_|/_/ |_|/_____/   ",
+                            "                 /____/                                          " };
+    
+    for(int i = 0; i < 6; ++i)
+        Utils::Print(title[i], { (Utils::WIDTH - (int)title[i].length())/ 2 , i - Utils::Y_OFFSET});
+
     std::string border(Utils::WIDTH, '#');
-    Utils::To(0, 0);
-    Utils::SetColor(Color::WHITE);
-    std::cout << border;
+    Utils::Print(border, { 0, 0 }, Color::WHITE);
+
     for (int i = 1; i < Utils::HEIGHT - 1; ++i)
     {
-        Utils::To(0, i);
-        std::cout << "#";
-        Utils::To(Utils::WIDTH - 1, i);
-        std::cout << "#";
+        Utils::Print("#", { 0, i });
+        Utils::Print("#", { Utils::WIDTH - 1, i });
     }
-    Utils::To(0, Utils::HEIGHT - 1);
-    std::cout << border;
 
+    Utils::Print(border, { 0, Utils::HEIGHT - 1 });
     PrintInfo();
 
     Utils::SetColor(Color::WHITE);
-    std::cout << "Use W/↑ to UP" << std::endl;
-    std::cout << "Use S/↓ to DOWN" << std::endl;
-    std::cout << "Use A/← to LEFT" << std::endl;
-    std::cout << "Use D/→ to RIGHT" << std::endl;
-    std::cout << "Use 1 to SPEED UP" << std::endl;
-    std::cout << "Use 2 to SLOW DOWN" << std::endl;
-    std::cout << "Use c to CONFIG" << std::endl;
+    Utils::PrintLine("Use W/↑ to UP");
+    Utils::PrintLine("Use S/↓ to DOWN");
+    Utils::PrintLine("Use A/← to LEFT");
+    Utils::PrintLine("Use D/→ to RIGHT");
+    Utils::PrintLine("Use 1 to SPEED UP");
+    Utils::PrintLine("Use 2 to SLOW DOWN");
+    Utils::PrintLine("Use c to CONFIG");
+
     std::cout << std::endl << std::endl << std::endl << std::endl;
-    Utils::To(-Utils::X_OFFSET, Utils::HEIGHT - 5);
-    std::cout << "      " << Utils::VERSION << "      " << std::endl;
-    std::cout << "  Made by GZTime  " << std::endl;
+
+    Utils::PrintLine("      " + Utils::VERSION + "      ", {-Utils::X_OFFSET, Utils::HEIGHT - 5});
+    Utils::PrintLine("  Made by GZTime  ");
 }
 
 
@@ -110,9 +104,7 @@ void Game::Run()
 
     Clear();
 
-    Utils::SetColor(Color::RED);
-    Utils::To(-Utils::X_OFFSET, 22);
-    std::cout << "Press 3 to pause!   " << std::endl;
+    Utils::PrintLine("Press 3 to pause!   ", { -Utils::X_OFFSET, 22 }, Color::RED);
 
     while (true)
     {
@@ -124,18 +116,14 @@ void Game::Run()
                 if (ch == '3')
                 {
                     pause = false;
-                    Utils::SetColor(Color::RED);
-                    Utils::To(-Utils::X_OFFSET, 22);
-                    std::cout << "Press 3 to pause!   " << std::endl;
+                    Utils::PrintLine("Press 3 to pause!   ", { -Utils::X_OFFSET, 22 }, Color::RED);
                 }
                 else if (ch == 'c' || ch == 'C')
                 {
                     Utils::Setting();
                     Utils::Resize();
                     Clear();
-                    Utils::SetColor(Color::RED);
-                    Utils::To(-Utils::X_OFFSET, 22);
-                    std::cout << "Press 3 to pause!   " << std::endl;
+                    Utils::PrintLine("Press 3 to pause!   ", { -Utils::X_OFFSET, 22 }, Color::RED);
                 }
             }
         }
@@ -174,23 +162,19 @@ void Game::PrintInfo()
     Utils::To(-Utils::X_OFFSET, 3);
     std::cout << std::setiosflags(std::ios::right);
 
-    Utils::SetColor(Color::WHITE);
-    std::cout << "Score : " << std::endl;
+    Utils::PrintLine("Score : ", Color::WHITE);
     Utils::SetColor(Color::GREEN);
     std::cout << std::setw(17) << score << std::endl << std::endl;
 
-    Utils::SetColor(Color::WHITE);
-    std::cout << "Record: " << std::endl;
+    Utils::PrintLine("Record: ", Color::WHITE);
     Utils::SetColor(Color::GREEN);
     std::cout << std::setw(17) << record << std::endl << std::endl;
 
-    Utils::SetColor(Color::WHITE);
-    std::cout << "Speed : ";
+    Utils::Print("Speed : ", Color::WHITE);
     Utils::SetColor(Color::YELLOW);
     std::cout << std::setw(7) << speed << "ms" << std::endl << std::endl;
 
-    Utils::SetColor(Color::WHITE);
-    std::cout << "Length: ";
+    Utils::Print("Length: ", Color::WHITE);
     Utils::SetColor(Color::YELLOW);
     std::cout << std::setw(9) << snake->Length() << std::endl << std::endl;
 
@@ -220,10 +204,7 @@ void Game::GameOver()
                                 "$$    $$/    $$$/   $$       |$$ |          ",
                                 " $$$$$$/      $/     $$$$$$$/ $$/           " };
     for (int i = 0; i < 19; ++i)
-    {
-        Utils::To((Utils::WIDTH - 12) / 2 - 16, Utils::HEIGHT / 2 - 10 + i);
-        std::cout << gameover[i];
-    }
+        Utils::Print(gameover[i], { (Utils::WIDTH - (int)gameover[i].length()) / 2, Utils::HEIGHT / 2 - 10 + i });
 }
 
 Pos Game::GenPos()
@@ -238,9 +219,7 @@ Pos Game::GenPos()
 void Game::GenFood()
 {
     food = GenPos();
-    Utils::SetColor(Color::FOOD);
-    Utils::To(food);
-    std::cout << ' ';
+    Utils::Print(" ", food, Color::FOOD);
 }
 
 void Game::GenItem()
@@ -289,18 +268,14 @@ void Game::ListenKeyBoard()
             break;
         case '3':
             pause = true;
-            Utils::SetColor(Color::RED);
-            Utils::To(-Utils::X_OFFSET, 22);
-            std::cout << "Press 3 to continue!" << std::endl;
+            Utils::PrintLine("Press 3 to continue!", { -Utils::X_OFFSET, 22 }, Color::RED);
             break;
         case 'c':
         case 'C':
             Utils::Setting();
             Utils::Resize();
             Clear();
-            Utils::SetColor(Color::RED);
-            Utils::To(-Utils::X_OFFSET, 22);
-            std::cout << "Press 3 to pause!   " << std::endl;
+            Utils::PrintLine("Press 3 to pause!   ", { -Utils::X_OFFSET, 22 }, Color::RED);
             break;
         default:
             snake->ChangeDir(ch);

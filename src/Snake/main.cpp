@@ -14,7 +14,7 @@ int main()
         game->Main();
         delete game; // May not be used because of the loop.
     }
-    catch (std::exception e)
+    catch (std::exception& e)
     {
         MessageBox(NULL, (LPCWSTR)e.what(), TEXT("已触发异常"), MB_OK);
     }

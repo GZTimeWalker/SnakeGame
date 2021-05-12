@@ -64,5 +64,20 @@ namespace GZ {
         static void SetColor(Color color);
         static void Setting();
         static void Resize();
+        static void Print(std::string msg);
+        static void Print(std::string msg, Pos pos);
+        static void Print(std::string msg, Color color);
+        static void Print(std::string msg, Pos pos, Color color);
+        static void PrintLine(std::string msg);
+        static void PrintLine(std::string msg, Pos pos);
+        static void PrintLine(std::string msg, Color color);
+        static void PrintLine(std::string msg, Pos pos, Color color);
+    };
+
+    class unknown_direction : public std::exception {
+    public:
+        const char* what() const throw() {
+            return "Unknown direction to move!";
+        }
     };
 }

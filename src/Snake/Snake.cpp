@@ -104,7 +104,7 @@ int Snake::Move(Pos food, std::vector<Item*>& items)
         next.x += 1;
         break;
     default:
-        throw std::exception("Unknown direction!");
+        throw unknown_direction();
     }
 
     if (Utils::THROUGHWALL)
@@ -160,15 +160,11 @@ int Snake::Move(Pos food, std::vector<Item*>& items)
 
 void Snake::Update(bool trim)
 {
-    Utils::SetColor(Color::YELLOW);
-    Utils::To(body[length - 1]);
-    std::cout << "*";
-    Utils::To(body[length]);
-    std::cout << "@";
+    Utils::Print("*", body[length - 1], Color::YELLOW);
+    Utils::Print("@", body[length]);
     if(trim)
     {
-        Utils::To(body[0]);
-        std::cout << " ";
+        Utils::Print(" ", body[0]);
         body.erase(body.begin());
         return;
     }
@@ -182,13 +178,8 @@ void Snake::Draw()
 {
     Utils::SetColor(Color::YELLOW);
     for (unsigned int i = 0; i < length - 1; ++i)
-    {
-        Utils::To(body[i]);
-        std::cout << "*";
-    }
-    Utils::To(Head);
-    std::cout << "@";
-
+        Utils::Print("*", body[i]);
+    Utils::Print("@", Head);
     Utils::SetColor(Color::ORIGIN);
 }
 

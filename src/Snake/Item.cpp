@@ -6,9 +6,7 @@ using namespace GZ;
 
 void Portal::Show()
 {
-    Utils::To(pos);
-    Utils::SetColor(Color::PORTAL);
-    std::cout << "@";
+    Utils::Print("@", pos, Color::PORTAL);
 }
 
 bool Portal::Detect(Pos pos, Snake* snake)
@@ -32,7 +30,7 @@ bool Portal::Detect(Pos pos, Snake* snake)
             next.x += i;
             break;
         default:
-            throw std::exception("Unknown direction!");
+            throw unknown_direction();
         }
         if (snake->HasPos(next))
             return true;
@@ -47,16 +45,12 @@ void Portal::Get(Snake* snake)
         randPos = { 6 + rand() % (Utils::WIDTH - 12), 6 + rand() % (Utils::HEIGHT - 12) };
     } while (snake->HasPos(randPos) || Detect(randPos, snake));
     snake->Head = randPos;
-    Utils::To(pos);
-    Utils::SetColor(Color::ORIGIN);
-    std::cout << " ";
+    Utils::Print(" ", pos, Color::ORIGIN);
 }
 
 void Gold::Show()
 {
-    Utils::To(pos);
-    Utils::SetColor(Color::GOLD);
-    std::cout << "G";
+    Utils::Print("G", pos, Color::GOLD);
 }
 
 void Gold::Get(Snake* snake)
