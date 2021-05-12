@@ -1,6 +1,7 @@
 #include "Snake.h"
 #include "Game.h"
 #include "Utils.h"
+#include "AI.h"
 
 #include <Windows.h>
 #include <iostream>
@@ -8,8 +9,11 @@
 
 using namespace GZ;
 
-Snake::Snake()
+Snake::Snake(AI* ai)
 {
+    this->ai = ai;
+    this->ai->SetSnake(this);
+
     isAlive = true;
     trimTail = true;
     Toward = Direction::UP;
@@ -18,13 +22,13 @@ Snake::Snake()
     for (int i = 0; i < length; ++i)
     {
         Head = {(Utils::WIDTH - 12) / 2, Utils::HEIGHT / 2 + 2 - i };
-        body.push_back(Head);
+        Body.push_back(Head);
     }
 }
 
 bool Snake::HasPos(Pos pos)
 {
-    for (auto& p : body)
+    for (auto& p : Body)
         if (pos == p)
             return true;
     return false;
@@ -89,23 +93,7 @@ void Snake::ChangeDir(char dir)
 int Snake::Move(Pos food, std::vector<Item*>& items)
 {
     Pos next = Pos(Head);
-    switch (Toward)
-    {
-    case Direction::UP:
-        next.y -= 1;
-        break;
-    case Direction::DOWN:
-        next.y += 1;
-        break;
-    case Direction::LEFT:
-        next.x -= 1;
-        break;
-    case Direction::RIGHT:
-        next.x += 1;
-        break;
-    default:
-        throw unknown_direction();
-    }
+    next = next + Toward;
 
     if (Utils::THROUGHWALL)
     {
@@ -129,56 +117,69 @@ int Snake::Move(Pos food, std::vector<Item*>& items)
     int score = 0;
 
     Head = next;
+    auto getitem = items.end();
 
-    for (int i = 0; i < items.size(); ++i)
+    for (auto item = items.begin(); item != items.end(); ++item)
     {
-        if (items[i]->pos == next)
+        if ((*item)->pos == next)
         {
-            items[i]->Get(this);
-            score = items[i]->score;
-            delete items[i];
-            items.erase(items.begin() + i);
+            (*item)->Get(this);
+            score = (*item)->score;
+            getitem = item;
             break;
         }
     }
 
-    body.push_back(Head);
+    Body.push_back(Head);
+    Pos lastTail = { -1, -1 };
 
     if (!score)
     {
         bool getfood = (Head == food);
-        Update(!getfood && trimTail);
-        return getfood ? length : 0;
+        lastTail = Update(!getfood && trimTail);
+        if(getfood)
+            score = length;
     }
     else 
     {
-        Update(trimTail);
+        lastTail = Update(trimTail);
     }
     
+    if (Utils::AIMODE)
+        Toward = ai->Step(food, items, getitem, lastTail);
+
+    if (getitem != items.end())
+    {
+        delete (*getitem);
+        items.erase(getitem);
+    }
+
     return score;
 }
 
-void Snake::Update(bool trim)
+Pos Snake::Update(bool trim)
 {
-    Utils::Print("*", body[length - 1], Color::YELLOW);
-    Utils::Print("@", body[length]);
+    Utils::Print("*", Body[length - 1], Color::YELLOW);
+    Utils::Print("@", Body[length]);
     if(trim)
     {
-        Utils::Print(" ", body[0]);
-        body.erase(body.begin());
-        return;
+        Utils::Print(" ", Body[0]);
+        Pos tail = Body[0];
+        Body.erase(Body.begin());
+        return tail;
     }
     if (!trimTail)
         if (!keepLen--)
             trimTail = true;
     length += 1;
+    return { -1, -1 };
 }
 
 void Snake::Draw()
 {
     Utils::SetColor(Color::YELLOW);
     for (unsigned int i = 0; i < length - 1; ++i)
-        Utils::Print("*", body[i]);
+        Utils::Print("*", Body[i]);
     Utils::Print("@", Head);
     Utils::SetColor(Color::ORIGIN);
 }
@@ -194,7 +195,7 @@ bool Snake::IsSafe(Pos next)
     bool succ = next.x > 0 && next.y > 0 && next.x < Utils::WIDTH - 1&& next.y < Utils::HEIGHT - 1;
     if (!succ)
         return false;
-    for (auto& pos : body)
+    for (auto& pos : Body)
         if (next == pos)
             return false;
     return true;

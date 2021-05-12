@@ -4,6 +4,8 @@
 
 using namespace GZ;
 
+/* Portal */
+
 void Portal::Show()
 {
     Utils::Print("@", pos, Color::PORTAL);
@@ -48,6 +50,15 @@ void Portal::Get(Snake* snake)
     Utils::Print(" ", pos, Color::ORIGIN);
 }
 
+ItemType Portal::GetType()
+{
+    return ItemType::PORTAL;
+}
+
+/* Portal END */
+
+/* Gold */
+
 void Gold::Show()
 {
     Utils::Print("G", pos, Color::GOLD);
@@ -57,3 +68,10 @@ void Gold::Get(Snake* snake)
 {
     snake->AddLength(5);
 }
+
+ItemType Gold::GetType()
+{
+    return ItemType::GOLD;
+}
+
+/* Gold  END */

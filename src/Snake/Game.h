@@ -2,6 +2,7 @@
 
 #include "Snake.h"
 #include "Item.h"
+#include "AI.h"
 #include <vector>
 
 namespace GZ {
@@ -16,10 +17,12 @@ namespace GZ {
         bool isRunning = false;
         bool pause = false;
         std::vector<Item*> items;
+        AI* ai = nullptr;
 
         void Run();
         void DrawMap();
         void PrintInfo();
+        void PrintConfig();
         void GameOver();
         Pos GenPos();
         void GenFood();

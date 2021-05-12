@@ -12,8 +12,13 @@ int Utils::HEIGHT = 32;
 int Utils::WIDTH = 70;
 int Utils::ITEMCOUNT = 3;
 int Utils::ITEMRATE = 50;
-bool Utils::THROUGHWALL = false;
-std::string Utils::VERSION = "V2.5.1";
+// int Utils::ITEMCOUNT = 300;
+// int Utils::ITEMRATE = 5000;
+bool Utils::THROUGHWALL = true;
+bool Utils::SKIPSLEEP = false;
+bool Utils::AIMODE = false;
+bool Utils::DEBUG = false;
+std::string Utils::VERSION = "V3.2.1";
 
 void Utils::To(int x, int y)
 {
@@ -32,7 +37,7 @@ void Utils::SetColor(Color color)
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)color);
 }
 
-void Utils::Setting()
+void Utils::Config()
 {
     system("cls");
     SetColor(Color::WHITE);
@@ -63,10 +68,22 @@ void Utils::Setting()
         input = 50;
     ITEMRATE = input;
     std::cout << ">>> Set ITEMRATE to " << ITEMRATE << std::endl;
-    std::cout << ">>> Use Through-Wall mode?(y/N) ";
+
     char ch;
+    std::cout << ">>> Use Through-Wall mode?(y/N) ";
     std::cin >> ch;
     THROUGHWALL = ch == 'y';
+    std::cout << ">>> Set THROUGHWALL to " << THROUGHWALL << std::endl;
+
+    std::cout << ">>> Use AI mode?(y/N) ";
+    std::cin >> ch;
+    AIMODE = ch == 'y';
+    std::cout << ">>> Set AIMODE to " << AIMODE << std::endl;
+
+    std::cout << ">>> Skip sleep time?(y/N) ";
+    std::cin >> ch;
+    SKIPSLEEP = ch == 'y';
+    std::cout << ">>> Set SKIPSLEEP to " << SKIPSLEEP << std::endl;
 }
 
 void Utils::Resize()
@@ -75,6 +92,30 @@ void Utils::Resize()
     char buffer[32];
     sprintf_s(buffer, "mode con:cols=%d lines=%d", WIDTH + X_OFFSET, HEIGHT + Y_OFFSET);
     system(buffer);
+}
+
+Direction Utils::Back(Direction dir)
+{
+    switch (dir)
+    {
+    case Direction::UP:
+        return Direction::DOWN;
+    case Direction::DOWN:
+        return Direction::UP;
+    case Direction::LEFT:
+        return Direction::RIGHT;
+    case Direction::RIGHT:
+        return Direction::LEFT;
+    case Direction::NONE:
+        return Direction::NONE;
+    default:
+        throw unknown_direction();
+    }
+}
+
+bool Utils::OutOfRange(Pos pos)
+{
+    return !(pos.x > 0 && pos.y > 0 && pos.x < Utils::WIDTH - 1 && pos.y < Utils::HEIGHT - 1);
 }
 
 void Utils::Init()

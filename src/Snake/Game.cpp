@@ -10,8 +10,13 @@ using namespace GZ;
 
 Game::Game()
 {
-    snake = new Snake();
+    Utils::SetColor(Color::ORIGIN);
+    ai = new AI();
+    snake = new Snake(ai);
+    
     snake->Draw();
+    ai->SetSnake(snake);
+
     DrawMap();
     Utils::PrintLine("Press S to start!   ", { -Utils::X_OFFSET, 22 }, Color::RED);
 }
@@ -19,6 +24,7 @@ Game::Game()
 Game::~Game()
 {
     delete snake;
+    delete ai;
     for (auto& item : items)
         delete item;
 }
@@ -34,7 +40,7 @@ void Game::Main()
                 Run();
             else if (ch == 'c' || ch == 'C')
             {
-                Utils::Setting();
+                Utils::Config();
                 Utils::Resize();
                 Clear();
                 Utils::PrintLine("Press S to start!   ", { -Utils::X_OFFSET, 22 }, Color::RED);
@@ -67,6 +73,7 @@ void Game::DrawMap()
 
     Utils::Print(border, { 0, Utils::HEIGHT - 1 });
 
+    PrintConfig();
     PrintInfo();
 
     Utils::SetColor(Color::WHITE);
@@ -87,11 +94,18 @@ void Game::Clear()
 {
     system("cls");
     DrawMap();
+
+    delete ai;
+    ai = new AI();
+
     delete snake;
-    snake = new Snake();
+    snake = new Snake(ai);
+
     snake->Draw();
+
     GenFood();
     score = 0;
+
     for (auto& item : items)
         delete item;
     items.clear();
@@ -119,7 +133,7 @@ void Game::Run()
                 }
                 else if (ch == 'c' || ch == 'C')
                 {
-                    Utils::Setting();
+                    Utils::Config();
                     Utils::Resize();
                     Clear();
                     Utils::PrintLine("Press 3 to pause!   ", { -Utils::X_OFFSET, 22 }, Color::RED);
@@ -142,10 +156,24 @@ void Game::Run()
             score += snake->Move(food, items);
 
             if (snake->Head == food)
+            {
                 GenFood();
+                if (Utils::DEBUG)
+                {
+                    Utils::SetColor(Color::ORIGIN);
+                    system("cls");
+                    for (auto &item:items)
+                        item->Show();
+                    snake->Draw();
+                    DrawMap();
+                    Utils::PrintLine("Press 3 to pause!   ", { -Utils::X_OFFSET, 22 }, Color::RED);
+                }
+            }
 
             GenItem();
-            Sleep(speed);
+
+            if(!Utils::SKIPSLEEP)
+                Sleep(speed);
         }
     }
 
@@ -174,6 +202,32 @@ void Game::PrintInfo()
     Utils::Print("Length: ", Color::WHITE);
     Utils::SetColor(Color::YELLOW);
     std::cout << std::setw(9) << snake->Length() << std::endl << std::endl;
+
+    std::cout << std::setiosflags(std::ios::left);
+}
+
+void Game::PrintConfig()
+{
+    Utils::To(-Utils::X_OFFSET, -Utils::Y_OFFSET + 2);
+
+    std::cout << std::setiosflags(std::ios::right);
+
+    Utils::Print(" AI Mode : ", Color::WHITE);
+    Utils::PrintLine(Utils::AIMODE ? "   Yes" : "    No", Utils::AIMODE ? Color::GREEN : Color::RED);
+
+    Utils::Print(" T - Wall: ", Color::WHITE);
+    Utils::PrintLine(Utils::THROUGHWALL ? "   Yes" : "    No", Utils::THROUGHWALL ? Color::GREEN : Color::RED);
+
+    Utils::Print("SkipSleep: ", Color::WHITE);
+    Utils::PrintLine(Utils::SKIPSLEEP ? "   Yes" : "    No", Utils::SKIPSLEEP ? Color::GREEN : Color::RED);
+
+    Utils::Print("ItemCount: ", Color::WHITE);
+    Utils::SetColor(Color::YELLOW);
+    std::cout << std::setw(6) << Utils::ITEMCOUNT << std::endl;
+
+    Utils::Print("ItemRate : ", Color::WHITE);
+    Utils::SetColor(Color::YELLOW);
+    std::cout << std::setw(6) << std::setprecision(5) << Utils::ITEMRATE / 10000.0 << std::endl;
 
     std::cout << std::setiosflags(std::ios::left);
 }
@@ -269,12 +323,14 @@ void Game::ListenKeyBoard()
             break;
         case 'c':
         case 'C':
-            Utils::Setting();
+            Utils::Config();
             Utils::Resize();
             Clear();
             Utils::PrintLine("Press 3 to pause!   ", { -Utils::X_OFFSET, 22 }, Color::RED);
             break;
         default:
+            if (Utils::AIMODE)
+                break;
             snake->ChangeDir(ch);
             break;
         }

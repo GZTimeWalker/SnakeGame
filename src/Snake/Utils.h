@@ -2,6 +2,8 @@
 
 #include <Windows.h>
 #include <string>
+#include <cmath>
+#include <queue>
 
 namespace GZ {
     enum class Color: int 
@@ -29,6 +31,22 @@ namespace GZ {
         PORTAL = B_CYAN | BLUE,
     };
 
+    enum class Direction : int
+    {
+        NONE = 0,
+        UP = 1,
+        DOWN = 2,
+        LEFT = 3,
+        RIGHT = 4
+    };
+
+    class unknown_direction : public std::exception {
+    public:
+        const char* what() const throw() {
+            return "Unknown direction to move!";
+        }
+    };
+
     struct Pos 
     {
         int x;
@@ -36,14 +54,36 @@ namespace GZ {
         bool operator==(const Pos& other) const {
             return x == other.x && y == other.y;
         }
-    };
-
-    enum class Direction: int
-    {
-        UP = 0,
-        DOWN = 1,
-        LEFT = 2,
-        RIGHT = 3
+        bool operator!=(const Pos& other) const {
+            return x != other.x || y != other.y;
+        }
+        int operator-(const Pos& other) const {
+            return std::abs(x - other.x) + std::abs(y - other.y);
+        }
+        Pos operator+(const Direction& dir)
+        {
+            Pos pos = { x, y };
+            switch (dir)
+            {
+            case Direction::UP:
+                pos.y -= 1;
+                break;
+            case Direction::DOWN:
+                pos.y += 1;
+                break;
+            case Direction::LEFT:
+                pos.x -= 1;
+                break;
+            case Direction::RIGHT:
+                pos.x += 1;
+                break;
+            case Direction::NONE:
+                break;
+            default:
+                throw unknown_direction();
+            }
+            return pos;
+        }
     };
 
     class Utils
@@ -57,13 +97,18 @@ namespace GZ {
         static int ITEMRATE;
         static bool THROUGHWALL;
         static std::string VERSION;
+        static bool AIMODE;
+        static bool DEBUG;
+        static bool SKIPSLEEP;
 
         static void Init();
         static void To(int x, int y);
         static void To(Pos pos);
         static void SetColor(Color color);
-        static void Setting();
+        static void Config();
         static void Resize();
+        static Direction Back(Direction dir);
+        static bool OutOfRange(Pos pos);
         static void Print(std::string msg);
         static void Print(std::string msg, Pos pos);
         static void Print(std::string msg, Color color);
@@ -72,12 +117,5 @@ namespace GZ {
         static void PrintLine(std::string msg, Pos pos);
         static void PrintLine(std::string msg, Color color);
         static void PrintLine(std::string msg, Pos pos, Color color);
-    };
-
-    class unknown_direction : public std::exception {
-    public:
-        const char* what() const throw() {
-            return "Unknown direction to move!";
-        }
     };
 }
