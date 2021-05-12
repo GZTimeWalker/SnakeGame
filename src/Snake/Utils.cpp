@@ -43,20 +43,20 @@ void Utils::Config()
     SetColor(Color::WHITE);
     int input;
     std::cout << ">>> Please input your game size:" << std::endl;
-    std::cout << ">>> WIDTH (70 <= w <= 140) = ";
+    std::cout << ">>> WIDTH (70 <= w <= 240) = ";
     std::cin >> input;
     if (input < 70)
         input = 70;
-    else if (input > 140)
-        input = 140;
+    else if (input > 240)
+        input = 240;
     WIDTH = input;
     std::cout << ">>> Set WIDTH to " << WIDTH << std::endl;
-    std::cout << ">>> HEIGHT (32 <= h <= 60) = ";
+    std::cout << ">>> HEIGHT (32 <= h <= 90) = ";
     std::cin >> input;
     if (input < 32)
         input = 32;
-    else if (input > 60)
-        input = 60;
+    else if (input > 90)
+        input = 90;
     HEIGHT = input;
     std::cout << ">>> Set HEIGHT to " << HEIGHT << std::endl;
     std::cout << ">>> ITEMCOUNT = ";
