@@ -2,7 +2,7 @@
 
 A SnakeGame Project for Midterm.
 
-## Highlight
+## Highlights
 
 - Resizable map.
 - Adjustable game speed.
@@ -14,3 +14,5 @@ A SnakeGame Project for Midterm.
 
 - Gold   : Lengthen your snake with 5 blocks.
 - Portal : Teleport your snake to a random position.
+
+![](images/V2.5.1.png)

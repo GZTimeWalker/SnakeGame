@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Windows.h>
+#include <string>
 
 namespace GZ {
     enum class Color: int 
@@ -55,6 +56,7 @@ namespace GZ {
         static int ITEMCOUNT;
         static int ITEMRATE;
         static bool THROUGHWALL;
+        static std::string VERSION;
 
         static void Init();
         static void To(int x, int y);

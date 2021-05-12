@@ -4,6 +4,7 @@
 #include <time.h>
 #include <cstdio>
 #include <iostream>
+#include <string>
 
 using namespace GZ;
 
@@ -12,6 +13,7 @@ int Utils::WIDTH = 70;
 int Utils::ITEMCOUNT = 3;
 int Utils::ITEMRATE = 50;
 bool Utils::THROUGHWALL = false;
+std::string Utils::VERSION = "V2.5.1";
 
 void Utils::To(int x, int y)
 {

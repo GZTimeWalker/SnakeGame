@@ -85,7 +85,7 @@ void Game::DrawMap()
     std::cout << "Use c to CONFIG" << std::endl;
     std::cout << std::endl << std::endl << std::endl << std::endl;
     Utils::To(-Utils::X_OFFSET, Utils::HEIGHT - 5);
-    std::cout << "      V2.1.0      " << std::endl;
+    std::cout << "      " << Utils::VERSION << "      " << std::endl;
     std::cout << "  Made by GZTime  " << std::endl;
 }
 
