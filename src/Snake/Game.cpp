@@ -229,6 +229,9 @@ void Game::PrintConfig()
     Utils::SetColor(Color::YELLOW);
     std::cout << std::setw(6) << std::setprecision(5) << Utils::ITEMRATE / 10000.0 << std::endl;
 
+    if (Utils::DEBUG)
+        Utils::Print("  DEBUG Mode ON  ", { -Utils::X_OFFSET, -Utils::Y_OFFSET + 1}, Color::RED);
+
     std::cout << std::setiosflags(std::ios::left);
 }
 

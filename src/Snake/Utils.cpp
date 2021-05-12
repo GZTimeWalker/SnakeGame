@@ -73,17 +73,17 @@ void Utils::Config()
     std::cout << ">>> Use Through-Wall mode?(y/N) ";
     std::cin >> ch;
     THROUGHWALL = ch == 'y';
-    std::cout << ">>> Set THROUGHWALL to " << THROUGHWALL << std::endl;
+    std::cout << ">>> Set THROUGHWALL to " << (THROUGHWALL ? "True" : "False") << std::endl;
 
     std::cout << ">>> Use AI mode?(y/N) ";
     std::cin >> ch;
     AIMODE = ch == 'y';
-    std::cout << ">>> Set AIMODE to " << AIMODE << std::endl;
+    std::cout << ">>> Set AIMODE to " << (AIMODE ? "True" : "False") << std::endl;
 
     std::cout << ">>> Skip sleep time?(y/N) ";
     std::cin >> ch;
     SKIPSLEEP = ch == 'y';
-    std::cout << ">>> Set SKIPSLEEP to " << SKIPSLEEP << std::endl;
+    std::cout << ">>> Set SKIPSLEEP to " << (SKIPSLEEP ? "True" : "False") << std::endl;
 }
 
 void Utils::Resize()
@@ -92,6 +92,23 @@ void Utils::Resize()
     char buffer[32];
     sprintf_s(buffer, "mode con:cols=%d lines=%d", WIDTH + X_OFFSET, HEIGHT + Y_OFFSET);
     system(buffer);
+}
+
+Pos Utils::EnsureRange(Pos pos)
+{
+    if (GZ::Utils::THROUGHWALL)
+    {
+        if (pos.x == 0)
+            pos.x = GZ::Utils::WIDTH - 2;
+        else if (pos.x == GZ::Utils::WIDTH - 1)
+            pos.x = 1;
+
+        if (pos.y == 0)
+            pos.y = GZ::Utils::HEIGHT - 2;
+        else if (pos.y == GZ::Utils::HEIGHT - 1)
+            pos.y = 1;
+    }
+    return pos;
 }
 
 Direction Utils::Back(Direction dir)
@@ -111,6 +128,11 @@ Direction Utils::Back(Direction dir)
     default:
         throw unknown_direction();
     }
+}
+
+int GZ::Utils::ThroughWallDis(Pos a, Pos b)
+{
+    return min(std::abs(a.x - b.x), std::abs(b.x - a.x)) + min(std::abs(a.y - b.y), std::abs(b.y - a.y));
 }
 
 bool Utils::OutOfRange(Pos pos)

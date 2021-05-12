@@ -107,7 +107,9 @@ namespace GZ {
         static void SetColor(Color color);
         static void Config();
         static void Resize();
+        static Pos EnsureRange(Pos pos);
         static Direction Back(Direction dir);
+        static int ThroughWallDis(Pos a, Pos b);
         static bool OutOfRange(Pos pos);
         static void Print(std::string msg);
         static void Print(std::string msg, Pos pos);

@@ -4,9 +4,6 @@
 using namespace GZ;
 using namespace std;
 
-int AI::dx[4] = { 0, 0, -1, 1 };
-int AI::dy[4] = { -1, 1, 0, 0 };
-
 Cell& GZ::AI::GetCell(Pos pos)
 {
 	return map->at(pos.x).at(pos.y);
@@ -17,7 +14,7 @@ Direction GZ::AI::GoRand()
 	Pos next;
 	for (int dir = 0; dir < 4; ++dir)
 	{
-		next = snake->Head + (Direction)dir;
+		next = Utils::EnsureRange(snake->Head + (Direction)dir);
 		if (!snake->HasPos(next) && (Utils::THROUGHWALL || !Utils::OutOfRange(next)))
 			return (Direction)dir;
 	}
@@ -74,21 +71,8 @@ Direction AI::AStar(Pos dest, std::vector<Item*>& items)
 		{
 			// Step forward
 			SortablePos next;
-			next.pos.x = cur.pos.x + dx[i];
-			next.pos.y = cur.pos.y + dy[i];
-
-			if (Utils::THROUGHWALL)
-			{
-				if (next.pos.x == 0)
-					next.pos.x = Utils::WIDTH - 2;
-				else if (next.pos.x == Utils::WIDTH - 1)
-					next.pos.x = 1;
-
-				if (next.pos.y == 0)
-					next.pos.y = Utils::HEIGHT - 2;
-				else if (next.pos.y == Utils::HEIGHT - 1)
-					next.pos.y = 1;
-			}
+			next.pos = Utils::EnsureRange(cur.pos + (Direction)(i + 1));
+			
 
 			if (Utils::OutOfRange(next.pos))
 				continue;
@@ -100,7 +84,9 @@ Direction AI::AStar(Pos dest, std::vector<Item*>& items)
 				continue;
 
 			// Calculate next h(pos) = dis(pos,dest) + step_count
-			next.val =  (next.pos - dest) + next_cell.step_count + 1;
+			next.val = Utils::THROUGHWALL ? Utils::ThroughWallDis(next.pos, dest) + next_cell.step_count + 1
+				: (next.pos - dest) + next_cell.step_count + 1;
+
 
 			auto pos = find(steps.begin(), steps.end(), next);
 
@@ -108,7 +94,7 @@ Direction AI::AStar(Pos dest, std::vector<Item*>& items)
 			{
 				next_cell.backDir = (Direction)(i + 1);
 				next_cell.step_count = cell.step_count + 1;
-				next_cell.dis = next.pos - dest;
+				next_cell.dis = Utils::THROUGHWALL ? Utils::ThroughWallDis(next.pos, dest) : next.pos - dest;
 				if (Utils::DEBUG)
 					RenderStep(next.pos, next_cell.backDir, Color::B_GREEN);
 				steps.push_back(next);
@@ -119,7 +105,7 @@ Direction AI::AStar(Pos dest, std::vector<Item*>& items)
 				{
 					next_cell.backDir = (Direction)(i + 1);
 					next_cell.step_count = cell.step_count + 1;
-					next_cell.dis = next.pos - dest;
+					next_cell.dis = Utils::THROUGHWALL ? Utils::ThroughWallDis(next.pos, dest) : next.pos - dest;
 					(*pos).val = next.val;
 				}
 			}
@@ -150,19 +136,7 @@ Direction AI::AStar(Pos dest, std::vector<Item*>& items)
 		default:
 			throw unknown_direction();
 		}
-
-		if (Utils::THROUGHWALL)
-		{
-			if (cur.pos.x == 0)
-				cur.pos.x = Utils::WIDTH - 2;
-			else if (cur.pos.x == Utils::WIDTH - 1)
-				cur.pos.x = 1;
-
-			if (cur.pos.y == 0)
-				cur.pos.y = Utils::HEIGHT - 2;
-			else if (cur.pos.y == Utils::HEIGHT - 1)
-				cur.pos.y = 1;
-		}
+		cur.pos = Utils::EnsureRange(cur.pos);
 		if (Utils::DEBUG)
 			Utils::Print("o", cur.pos, Color::B_CYAN);
 	}
@@ -245,6 +219,9 @@ Direction AI::Step(Pos food, std::vector<Item*>& items, std::vector<Item*>::iter
 
 	if (step == Direction::NONE)
 		step = GoRand();
+
+	if (Utils::DEBUG)
+		snake->Draw();
 
 	return step;
 }

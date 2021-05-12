@@ -93,20 +93,7 @@ void Snake::ChangeDir(char dir)
 int Snake::Move(Pos food, std::vector<Item*>& items)
 {
     Pos next = Pos(Head);
-    next = next + Toward;
-
-    if (Utils::THROUGHWALL)
-    {
-        if (next.x == 0)
-            next.x = Utils::WIDTH - 2;
-        else if (next.x == Utils::WIDTH - 1)
-            next.x = 1;
-
-        if (next.y == 0)
-            next.y = Utils::HEIGHT - 2;
-        else if (next.y == Utils::HEIGHT - 1)
-            next.y = 1;
-    }
+    next = Utils::EnsureRange(next + Toward);
 
     if (!IsSafe(next))
     {
