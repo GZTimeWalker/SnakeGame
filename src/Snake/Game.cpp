@@ -66,6 +66,7 @@ void Game::DrawMap()
     }
 
     Utils::Print(border, { 0, Utils::HEIGHT - 1 });
+
     PrintInfo();
 
     Utils::SetColor(Color::WHITE);
@@ -76,8 +77,6 @@ void Game::DrawMap()
     Utils::PrintLine("Use 1 to SPEED UP");
     Utils::PrintLine("Use 2 to SLOW DOWN");
     Utils::PrintLine("Use c to CONFIG");
-
-    std::cout << std::endl << std::endl << std::endl << std::endl;
 
     Utils::PrintLine("      " + Utils::VERSION + "      ", {-Utils::X_OFFSET, Utils::HEIGHT - 5});
     Utils::PrintLine("  Made by GZTime  ");
@@ -150,9 +149,7 @@ void Game::Run()
         }
     }
 
-    Utils::SetColor(Color::RED);
-    Utils::To(-Utils::X_OFFSET, 22);
-    std::cout << "Press S to restart! " << std::endl;
+    Utils::PrintLine("Press S to restart! ", { -Utils::X_OFFSET, 22 }, Color::RED);
 
     isRunning = false;
 }
