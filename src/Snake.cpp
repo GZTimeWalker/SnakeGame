@@ -88,7 +88,7 @@ void Snake::ChangeDir(char dir)
 
 int Snake::Move(Pos food, std::vector<Item*>& items)
 {
-    Pos next = Pos(body[length - 1]);
+    Pos next = Pos(Head);
     switch (Toward)
     {
     case Direction::UP:
@@ -186,7 +186,7 @@ void Snake::Draw()
         Utils::To(body[i]);
         std::cout << "*";
     }
-    Utils::To(body[length - 1]);
+    Utils::To(Head);
     std::cout << "@";
 
     Utils::SetColor(Color::ORIGIN);
