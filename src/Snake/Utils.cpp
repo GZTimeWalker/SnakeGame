@@ -18,7 +18,7 @@ bool Utils::THROUGHWALL = true;
 bool Utils::SKIPSLEEP = false;
 bool Utils::AIMODE = false;
 bool Utils::DEBUG = false;
-std::string Utils::VERSION = "V3.5.0";
+std::string Utils::VERSION = "V3.5.1";
 
 void Utils::To(int x, int y)
 {
@@ -130,9 +130,9 @@ Direction Utils::Back(Direction dir)
     }
 }
 
-int GZ::Utils::ThroughWallDis(Pos a, Pos b)
+int Utils::ThroughWallDis(Pos a, Pos b)
 {
-    return min(std::abs(a.x - b.x), std::abs(b.x - a.x)) + min(std::abs(a.y - b.y), std::abs(b.y - a.y));
+    return min(std::abs(a.x - b.x), WIDTH - std::abs(a.x - b.x)) + min(std::abs(a.y - b.y), HEIGHT - std::abs(a.y - b.y));
 }
 
 bool Utils::OutOfRange(Pos pos)
