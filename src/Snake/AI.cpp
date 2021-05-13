@@ -265,7 +265,10 @@ Direction AI::Step(Pos food, std::vector<Item*>& items, std::vector<Item*>::iter
 
 	// if in debug mode, redraw the snake to avoid it to be covered.
 	if (Utils::DEBUG)
+	{
 		snake->Draw();
+		Utils::Print(" ", food, Color::FOOD);
+	}
 
 	return step;
 }
