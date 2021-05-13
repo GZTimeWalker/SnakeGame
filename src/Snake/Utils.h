@@ -101,6 +101,7 @@ namespace GZ {
         static bool AIMODE;
         static bool DEBUG;
         static bool SKIPSLEEP;
+        static unsigned int ITEMFLAG;
 
         static void Init();
         static void To(int x, int y);

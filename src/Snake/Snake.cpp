@@ -196,8 +196,7 @@ void Snake::CutLength(int len)
 
 bool Snake::IsSafe(Pos next)
 {
-    bool succ = next.x > 0 && next.y > 0 && next.x < Utils::WIDTH - 1&& next.y < Utils::HEIGHT - 1;
-    if (!succ)
+    if (Utils::OutOfRange(next))
         return false;
     for (auto& pos : Body)
         if (next == pos)

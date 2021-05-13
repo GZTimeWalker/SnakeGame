@@ -3,11 +3,12 @@
 #include "Snake.h"
 
 namespace GZ {
-    enum class ItemType: int {
-        NONE = 0,
-        PORTAL = 1,
-        GOLD = 2,
-        CUT = 3,
+    enum class ItemType: unsigned int {
+        NONE   = 0x00000000,
+        PORTAL = 0x00000001,
+        GOLD   = 0x00000010,
+        CUT    = 0x00000100,
+        ALL    = 0x11111111,
     };
     class Item
     {
@@ -30,6 +31,7 @@ namespace GZ {
         Portal(Pos p): Item(p, 20) {}
         void Show();
         void Get(Snake* snake);
+        static bool TryGen();
         ItemType GetType();
     };
 
@@ -39,6 +41,7 @@ namespace GZ {
         Gold(Pos p) : Item(p, 100) {}
         void Show();
         void Get(Snake* snake);
+        static bool TryGen();
         ItemType GetType();
     };
 
@@ -48,6 +51,7 @@ namespace GZ {
         Cut(Pos p) : Item(p, 50) {}
         void Show();
         void Get(Snake* snake);
+        static bool TryGen();
         ItemType GetType();
     };
 }

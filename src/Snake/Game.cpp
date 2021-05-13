@@ -284,24 +284,34 @@ void Game::GenItem()
 {
     if (rand() % 10000 < Utils::ITEMRATE && items.size() < Utils::ITEMCOUNT)
     {
-        int rate = rand() % 100;
-        if (rate < 35)
+        switch (rand() % 3)
         {
-            Gold* g = new Gold(GenPos());
-            g->Show();
-            items.push_back(g);
-        }
-        else if (rate < 70)
-        {
-            Cut* c = new Cut(GenPos());
-            c->Show();
-            items.push_back(c);
-        }
-        else
-        {
-            Portal* p = new Portal(GenPos());
-            p->Show();
-            items.push_back(p);
+        case 0:
+            if ((Utils::ITEMFLAG & (unsigned int)ItemType::PORTAL) && Portal::TryGen())
+            {
+                Portal* i = new Portal(GenPos());
+                i->Show();
+                items.push_back(i);
+            }
+            break;
+        case 1:
+            if ((Utils::ITEMFLAG & (unsigned int)ItemType::GOLD) && Gold::TryGen())
+            {
+                Gold* i = new Gold(GenPos());
+                i->Show();
+                items.push_back(i);
+            }
+            break;
+        case 2:
+            if ((Utils::ITEMFLAG & (unsigned int)ItemType::CUT) && Cut::TryGen())
+            {
+                Cut* i = new Cut(GenPos());
+                i->Show();
+                items.push_back(i);
+            }
+            break;
+        default:
+            break;
         }
     }
 }

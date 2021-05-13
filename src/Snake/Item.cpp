@@ -50,6 +50,11 @@ void Portal::Get(Snake* snake)
     Utils::Print(" ", pos, Color::ORIGIN);
 }
 
+bool Portal::TryGen()
+{
+    return (rand() % 10 < 5);
+}
+
 ItemType Portal::GetType()
 {
     return ItemType::PORTAL;
@@ -69,6 +74,11 @@ void Gold::Get(Snake* snake)
     snake->AddLength(5);
 }
 
+bool Gold::TryGen()
+{
+    return (rand() % 10 < 4);
+}
+
 ItemType Gold::GetType()
 {
     return ItemType::GOLD;
@@ -86,6 +96,11 @@ void Cut::Show()
 void Cut::Get(Snake* snake)
 {
     snake->CutLength(5);
+}
+
+bool Cut::TryGen()
+{
+    return (rand() % 10 < 4);
 }
 
 ItemType Cut::GetType()

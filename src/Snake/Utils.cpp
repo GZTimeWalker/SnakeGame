@@ -1,4 +1,5 @@
 #include "Utils.h"
+#include "Item.h"
 
 #include <Windows.h>
 #include <time.h>
@@ -12,13 +13,14 @@ int Utils::HEIGHT = 32;
 int Utils::WIDTH = 70;
 int Utils::ITEMCOUNT = 3;
 int Utils::ITEMRATE = 50;
+unsigned int Utils::ITEMFLAG = (unsigned int)ItemType::ALL;
 // int Utils::ITEMCOUNT = 300;
 // int Utils::ITEMRATE = 5000;
 bool Utils::THROUGHWALL = true;
 bool Utils::SKIPSLEEP = false;
 bool Utils::AIMODE = false;
 bool Utils::DEBUG = false;
-std::string Utils::VERSION = "V3.6.0";
+std::string Utils::VERSION = "V3.6.3";
 
 void Utils::To(int x, int y)
 {
@@ -42,7 +44,7 @@ void Utils::Config()
     system("cls");
     SetColor(Color::WHITE);
     int input;
-    std::cout << ">>> Please input your game size:" << std::endl;
+    std::cout << "======= GAME SIZE =======" << std::endl << std::endl;
     std::cout << ">>> WIDTH (70 <= w <= 240) = ";
     std::cin >> input;
     if (input < 70)
@@ -50,7 +52,7 @@ void Utils::Config()
     else if (input > 240)
         input = 240;
     WIDTH = input;
-    std::cout << ">>> Set WIDTH to " << WIDTH << std::endl;
+    std::cout << ">>> Set WIDTH to " << WIDTH << std::endl << std::endl;
     std::cout << ">>> HEIGHT (32 <= h <= 90) = ";
     std::cin >> input;
     if (input < 32)
@@ -58,32 +60,57 @@ void Utils::Config()
     else if (input > 90)
         input = 90;
     HEIGHT = input;
-    std::cout << ">>> Set HEIGHT to " << HEIGHT << std::endl;
+    std::cout << ">>> Set HEIGHT to " << HEIGHT << std::endl << std::endl;
+
+    std::cout << "====== GAME CONFIG ======" << std::endl << std::endl;
+
     std::cout << ">>> ITEMCOUNT = ";
     std::cin >> ITEMCOUNT;
-    std::cout << ">>> Set ITEMCOUNT to " << ITEMCOUNT << std::endl;
+    std::cout << ">>> Set ITEMCOUNT to " << ITEMCOUNT << std::endl << std::endl;
     std::cout << ">>> ITEMRATE (0 <= r <= 10000) = ";
     std::cin >> input;
     if (input < 0 || input > 10000)
         input = 50;
     ITEMRATE = input;
-    std::cout << ">>> Set ITEMRATE to " << ITEMRATE << std::endl;
+    std::cout << ">>> Set ITEMRATE to " << ITEMRATE << std::endl << std::endl;
 
     char ch;
     std::cout << ">>> Use Through-Wall mode?(y/N) ";
     std::cin >> ch;
     THROUGHWALL = ch == 'y';
-    std::cout << ">>> Set THROUGHWALL to " << (THROUGHWALL ? "True" : "False") << std::endl;
+    std::cout << ">>> Set THROUGHWALL to " << (THROUGHWALL ? "True" : "False") << std::endl << std::endl;
 
     std::cout << ">>> Use AI mode?(y/N) ";
     std::cin >> ch;
     AIMODE = ch == 'y';
-    std::cout << ">>> Set AIMODE to " << (AIMODE ? "True" : "False") << std::endl;
+    std::cout << ">>> Set AIMODE to " << (AIMODE ? "True" : "False") << std::endl << std::endl;
 
     std::cout << ">>> Skip sleep time?(y/N) ";
     std::cin >> ch;
     SKIPSLEEP = ch == 'y';
-    std::cout << ">>> Set SKIPSLEEP to " << (SKIPSLEEP ? "True" : "False") << std::endl;
+    std::cout << ">>> Set SKIPSLEEP to " << (SKIPSLEEP ? "True" : "False") << std::endl << std::endl;
+
+    std::cout << "====== ITEM CONFIG ======" << std::endl << std::endl;
+
+    ITEMFLAG = (unsigned int)ItemType::NONE;
+
+    std::cout << ">>> Use Portal?(y/N) ";
+    std::cin >> ch;
+    if(ch == 'y')
+        ITEMFLAG |= (unsigned int)ItemType::PORTAL;
+    std::cout << ">>> Set PORTAL to " << (ITEMFLAG & (unsigned int)ItemType::PORTAL ? "True" : "False") << std::endl;
+
+    std::cout << ">>> Use Gold?(y/N) ";
+    std::cin >> ch;
+    if (ch == 'y')
+        ITEMFLAG |= (unsigned int)ItemType::GOLD;
+    std::cout << ">>> Set GOLD to " << (ITEMFLAG & (unsigned int)ItemType::GOLD ? "True" : "False") << std::endl;
+
+    std::cout << ">>> Use Cut?(y/N) ";
+    std::cin >> ch;
+    if (ch == 'y')
+        ITEMFLAG |= (unsigned int)ItemType::CUT;
+    std::cout << ">>> Set CUT to " << (ITEMFLAG & (unsigned int)ItemType::CUT ? "True" : "False") << std::endl;
 }
 
 void Utils::Resize()
