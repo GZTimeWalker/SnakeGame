@@ -12,15 +12,13 @@ using namespace GZ;
 int Utils::HEIGHT = 32;
 int Utils::WIDTH = 70;
 int Utils::ITEMCOUNT = 3;
-int Utils::ITEMRATE = 50;
+int Utils::ITEMRATE = 100;
 unsigned int Utils::ITEMFLAG = (unsigned int)ItemType::ALL;
-// int Utils::ITEMCOUNT = 300;
-// int Utils::ITEMRATE = 5000;
 bool Utils::THROUGHWALL = true;
 bool Utils::SKIPSLEEP = false;
 bool Utils::AIMODE = false;
 bool Utils::DEBUG = false;
-std::string Utils::VERSION = "V3.6.3";
+std::string Utils::VERSION = "V3.6.4";
 
 void Utils::To(int x, int y)
 {
@@ -141,7 +139,7 @@ Pos Utils::EnsureRange(Pos pos)
     return pos;
 }
 
-Direction Utils::Back(Direction dir)
+Direction Utils::Opposite(Direction dir)
 {
     switch (dir)
     {
@@ -160,7 +158,7 @@ Direction Utils::Back(Direction dir)
     }
 }
 
-int Utils::ThroughWallDis(Pos a, Pos b)
+int Utils::ThroughWallDistance(Pos a, Pos b)
 {
     return min(std::abs(a.x - b.x), WIDTH - std::abs(a.x - b.x)) + min(std::abs(a.y - b.y), HEIGHT - std::abs(a.y - b.y));
 }

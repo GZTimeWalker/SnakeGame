@@ -51,6 +51,8 @@ void Game::Main()
 
 void Game::DrawMap()
 {
+    // print title
+
     Utils::SetColor(Color::YELLOW);
     std::string title[] = { "    ____   __                 _____  _   __ ___     __ __  ______",
                             "   / __ \\ / /____ _ __  __   / ___/ / | / //   |   / //_/ / ____/",
@@ -62,6 +64,8 @@ void Game::DrawMap()
     for(int i = 0; i < 6; ++i)
         Utils::Print(title[i], { (Utils::WIDTH - (int)title[i].length())/ 2 , i - Utils::Y_OFFSET});
 
+    // print border
+
     std::string border(Utils::WIDTH, '#');
     Utils::Print(border, { 0, 0 }, Color::WHITE);
 
@@ -72,6 +76,8 @@ void Game::DrawMap()
     }
 
     Utils::Print(border, { 0, Utils::HEIGHT - 1 });
+
+    // print other infomation and guide
 
     PrintConfig();
     PrintInfo();
@@ -119,6 +125,7 @@ void Game::Run()
 
     Utils::PrintLine("Press 3 to pause!   ", { -Utils::X_OFFSET, 22 }, Color::RED);
 
+    // main game event loop
     while (true)
     {
         if (pause)
@@ -142,9 +149,15 @@ void Game::Run()
         }
         else
         {
+            // update record
+
             if (record < score) record = score;
 
+            // show infomation
+
             PrintInfo();
+
+            // check the snake is alive
 
             if (!snake->Alive())
             {
@@ -152,12 +165,24 @@ void Game::Run()
                 break;
             }
 
+            // listen to the user input
+
             ListenKeyBoard();
+
+            // move forward
+
             score += snake->Move(food, items);
+
+            // if snake get the food
 
             if (snake->Head == food)
             {
+                // generate a new food
+
                 GenFood();
+
+                // if in debug mode, clear the path finding record.
+
                 if (Utils::DEBUG)
                 {
                     Utils::SetColor(Color::ORIGIN);
@@ -170,7 +195,11 @@ void Game::Run()
                 }
             }
 
+            // try to generate a item
+
             GenItem();
+
+            // adjust game speed
 
             if(!Utils::SKIPSLEEP)
                 Sleep(speed);
@@ -354,7 +383,7 @@ void Game::ListenKeyBoard()
         default:
             if (Utils::AIMODE)
                 break;
-            snake->ChangeDir(ch);
+            snake->ChangeDirection(ch);
             break;
         }
     }

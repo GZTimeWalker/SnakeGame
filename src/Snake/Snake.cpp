@@ -42,8 +42,10 @@ bool Snake::Alive()
     return isAlive;
 }
 
-void Snake::ChangeDir(char dir)
+void Snake::ChangeDirection(char dir)
 {
+    // support arrow key input
+
     if (!isascii(dir))
     {
         dir = _getch();
@@ -65,7 +67,11 @@ void Snake::ChangeDir(char dir)
             break;
         }
     }
+
     dir = dir < 'a' ? dir : dir - ('a' - 'A');
+
+    // can not turn to backward directly
+
     switch (dir)
     {
     case 'W':
@@ -95,6 +101,8 @@ void Snake::ChangeDir(char dir)
 
 int Snake::Move(Pos food, std::vector<Item*>& items)
 {
+    // get next positon, step forward
+
     Pos next = Pos(Head);
     next = Utils::EnsureRange(next + Toward);
 
@@ -104,15 +112,19 @@ int Snake::Move(Pos food, std::vector<Item*>& items)
         return 0;
     }
 
+    Head = next;
+
     int score = 0;
 
-    Head = next;
+    // whether the snake touch the item
+
     auto getitem = items.end();
 
     for (auto item = items.begin(); item != items.end(); ++item)
     {
-        if ((*item)->pos == next)
+        if ((*item)->pos == Head)
         {
+            // let item to process the snake
             (*item)->Get(this);
             score = (*item)->score;
             getitem = item;
@@ -120,23 +132,39 @@ int Snake::Move(Pos food, std::vector<Item*>& items)
         }
     }
 
+    // let head to be the last one in body
+
     Body.push_back(Head);
+
     Pos lastTail = { -1, -1 };
+
+    // if did not touch any item
 
     if (!score)
     {
+        // whether the snake get the food
         bool getfood = (Head == food);
+
+        // update the snake
+        // trim tail when didn't get the food and trimTail flag is true
         lastTail = Update(!getfood && trimTail);
+
+        // update the score
         if(getfood)
             score = award;
     }
     else 
     {
+        // update the snake with trimTail flag
         lastTail = Update(trimTail);
     }
     
+    // let AI to choose where to go next.
+
     if (Utils::AIMODE)
         Toward = ai->Step(food, items, getitem, lastTail);
+
+    // remove the item
 
     if (getitem != items.end())
     {
@@ -149,13 +177,18 @@ int Snake::Move(Pos food, std::vector<Item*>& items)
 
 Pos Snake::Update(bool trim)
 {
+    // last head become body, and head need to draw
     Utils::Print("*", Body[length - 1], Color::YELLOW);
     Utils::Print("@", Body[length]);
+
     if(trim)
     {
+        // erase tail
         Utils::Print(" ", Body[0]);
         Pos tail = Body[0];
         Body.erase(Body.begin());
+
+        // if need to erase more
         if (trimLen > 0 && length > 3)
         {
             Utils::Print(" ", Body[0]);
@@ -164,13 +197,18 @@ Pos Snake::Update(bool trim)
             --trimLen;
             --length;
         }
+
         return tail;
     }
+
+    // use this to lengthen your snake
     if (!trimTail)
         if (!keepLen--)
             trimTail = true;
+
     length += 1;
     award += 1;
+
     return { -1, -1 };
 }
 
@@ -196,11 +234,15 @@ void Snake::CutLength(int len)
 
 bool Snake::IsSafe(Pos next)
 {
+    // if next step is out of game area
     if (Utils::OutOfRange(next))
         return false;
+
+    // if touch self
     for (auto& pos : Body)
         if (next == pos)
             return false;
+
     return true;
 }
 

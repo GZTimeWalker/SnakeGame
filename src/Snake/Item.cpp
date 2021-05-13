@@ -84,7 +84,7 @@ ItemType Gold::GetType()
     return ItemType::GOLD;
 }
 
-/* Gold  END */
+/* Gold END */
 
 /* Cut */
 
@@ -108,5 +108,5 @@ ItemType Cut::GetType()
     return ItemType::CUT;
 }
 
-/* Cut  END */
+/* Cut END */
 

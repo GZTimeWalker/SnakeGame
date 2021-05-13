@@ -5,11 +5,15 @@
 
 using namespace GZ;
 
+/// <summary>
+/// The entry point
+/// </summary>
 int main(int argc, char* argv[])
 {
     Utils::Init();
     if (argc > 1 && strcmp(argv[1], "-d") == 0)
         Utils::DEBUG = true;
+
     try
     {
         Game* game = new Game();
