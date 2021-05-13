@@ -98,19 +98,19 @@ void Utils::Config()
     std::cin >> ch;
     if(ch == 'y')
         ITEMFLAG |= (unsigned int)ItemType::PORTAL;
-    std::cout << ">>> Set PORTAL to " << (ITEMFLAG & (unsigned int)ItemType::PORTAL ? "True" : "False") << std::endl;
+    std::cout << ">>> Set PORTAL to " << (ITEMFLAG & (unsigned int)ItemType::PORTAL ? "ON" : "OFF") << std::endl << std::endl;
 
     std::cout << ">>> Use Gold?(y/N) ";
     std::cin >> ch;
     if (ch == 'y')
         ITEMFLAG |= (unsigned int)ItemType::GOLD;
-    std::cout << ">>> Set GOLD to " << (ITEMFLAG & (unsigned int)ItemType::GOLD ? "True" : "False") << std::endl;
+    std::cout << ">>> Set GOLD to " << (ITEMFLAG & (unsigned int)ItemType::GOLD ? "ON" : "OFF") << std::endl << std::endl;
 
     std::cout << ">>> Use Cut?(y/N) ";
     std::cin >> ch;
     if (ch == 'y')
         ITEMFLAG |= (unsigned int)ItemType::CUT;
-    std::cout << ">>> Set CUT to " << (ITEMFLAG & (unsigned int)ItemType::CUT ? "True" : "False") << std::endl;
+    std::cout << ">>> Set CUT to " << (ITEMFLAG & (unsigned int)ItemType::CUT ? "ON" : "OFF") << std::endl << std::endl;
 }
 
 void Utils::Resize()
