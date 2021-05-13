@@ -9,6 +9,7 @@ A SnakeGame Project for Midterm.
 - AWSD as well as Arrow keys are supported.
 - Through-Wall Mode supported.
 - Title and Gameover Text are shown in "ASCII Art".
+- You can choose what items you want to play with.
 - AI-Mode supported(Incomplete).
 
 ## Items
