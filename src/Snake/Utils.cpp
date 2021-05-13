@@ -90,6 +90,9 @@ void Utils::Config()
     SKIPSLEEP = ch == 'y';
     std::cout << ">>> Set SKIPSLEEP to " << (SKIPSLEEP ? "True" : "False") << std::endl << std::endl;
 
+    if (ITEMCOUNT * ITEMRATE == 0)
+        return;
+
     std::cout << "====== ITEM CONFIG ======" << std::endl << std::endl;
 
     ITEMFLAG = (unsigned int)ItemType::NONE;
