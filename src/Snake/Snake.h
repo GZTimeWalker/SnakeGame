@@ -14,6 +14,8 @@ namespace GZ {
         int length;
         bool trimTail;
         int keepLen;
+        int trimLen;
+        int award;
         AI* ai;
 
         Pos Update(bool trim);
@@ -27,11 +29,13 @@ namespace GZ {
         Snake(AI* ai);
         bool HasPos(Pos pos);
         bool Alive();
+        int Length();
+        int Award();
         int Move(Pos food, std::vector<Item*>& items);
         void ChangeDir(char dir);
-        unsigned int Length();
         void Draw();
         void AddLength(int len);
+        void CutLength(int len);
     };
 }
 

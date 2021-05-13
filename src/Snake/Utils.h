@@ -29,6 +29,7 @@ namespace GZ {
         FOOD = B_PINK,
         GOLD = B_YELLOW | RED,
         PORTAL = B_CYAN | BLUE,
+        CUT = B_BLUE | YELLOW,
     };
 
     enum class Direction : int

@@ -203,6 +203,10 @@ void Game::PrintInfo()
     Utils::SetColor(Color::YELLOW);
     std::cout << std::setw(9) << snake->Length() << std::endl << std::endl;
 
+    Utils::Print("Award : ", Color::WHITE);
+    Utils::SetColor(Color::YELLOW);
+    std::cout << std::setw(9) << snake->Award() << std::endl << std::endl;
+
     std::cout << std::setiosflags(std::ios::left);
 }
 
@@ -281,11 +285,17 @@ void Game::GenItem()
     if (rand() % 10000 < Utils::ITEMRATE && items.size() < Utils::ITEMCOUNT)
     {
         int rate = rand() % 100;
-        if (rate < 50)
+        if (rate < 35)
         {
             Gold* g = new Gold(GenPos());
             g->Show();
             items.push_back(g);
+        }
+        else if (rate < 70)
+        {
+            Cut* c = new Cut(GenPos());
+            c->Show();
+            items.push_back(c);
         }
         else
         {

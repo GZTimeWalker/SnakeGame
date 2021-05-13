@@ -75,3 +75,23 @@ ItemType Gold::GetType()
 }
 
 /* Gold  END */
+
+/* Cut */
+
+void Cut::Show()
+{
+    Utils::Print("U", pos, Color::CUT);
+}
+
+void Cut::Get(Snake* snake)
+{
+    snake->CutLength(5);
+}
+
+ItemType Cut::GetType()
+{
+    return ItemType::CUT;
+}
+
+/* Cut  END */
+

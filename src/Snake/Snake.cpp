@@ -18,7 +18,10 @@ Snake::Snake(AI* ai)
     trimTail = true;
     Toward = Direction::UP;
     length = 3;
+    award = 3;
     keepLen = 0;
+    trimLen = 0;
+
     for (int i = 0; i < length; ++i)
     {
         Head = {(Utils::WIDTH - 12) / 2, Utils::HEIGHT / 2 + 2 - i };
@@ -125,7 +128,7 @@ int Snake::Move(Pos food, std::vector<Item*>& items)
         bool getfood = (Head == food);
         lastTail = Update(!getfood && trimTail);
         if(getfood)
-            score = length;
+            score = award;
     }
     else 
     {
@@ -153,12 +156,21 @@ Pos Snake::Update(bool trim)
         Utils::Print(" ", Body[0]);
         Pos tail = Body[0];
         Body.erase(Body.begin());
+        if (trimLen > 0 && length > 3)
+        {
+            Utils::Print(" ", Body[0]);
+            tail = Body[0];
+            Body.erase(Body.begin());
+            --trimLen;
+            --length;
+        }
         return tail;
     }
     if (!trimTail)
         if (!keepLen--)
             trimTail = true;
     length += 1;
+    award += 1;
     return { -1, -1 };
 }
 
@@ -177,6 +189,11 @@ void Snake::AddLength(int len)
     keepLen += len;
 }
 
+void Snake::CutLength(int len)
+{
+    trimLen += len;
+}
+
 bool Snake::IsSafe(Pos next)
 {
     bool succ = next.x > 0 && next.y > 0 && next.x < Utils::WIDTH - 1&& next.y < Utils::HEIGHT - 1;
@@ -188,7 +205,12 @@ bool Snake::IsSafe(Pos next)
     return true;
 }
 
-unsigned int Snake::Length()
+int Snake::Length()
 {
     return length;
+}
+
+int GZ::Snake::Award()
+{
+    return award;
 }

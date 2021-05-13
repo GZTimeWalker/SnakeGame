@@ -7,6 +7,7 @@ namespace GZ {
         NONE = 0,
         PORTAL = 1,
         GOLD = 2,
+        CUT = 3,
     };
     class Item
     {
@@ -36,6 +37,15 @@ namespace GZ {
     public:
 
         Gold(Pos p) : Item(p, 100) {}
+        void Show();
+        void Get(Snake* snake);
+        ItemType GetType();
+    };
+
+    class Cut : public Item {
+    public:
+
+        Cut(Pos p) : Item(p, 50) {}
         void Show();
         void Get(Snake* snake);
         ItemType GetType();

@@ -15,5 +15,6 @@ A SnakeGame Project for Midterm.
 
 - Gold   : Lengthen your snake with 5 blocks.
 - Portal : Teleport your snake to a random position.
+- Cut    : Shorten your snake with 5 blocks but keep your score.
 
 ![](images/V3.5.0.png)
