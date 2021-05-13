@@ -45,7 +45,7 @@ auto AI::GetMinStepPos()
 {
 	auto minpos = steps.begin();
 	for (auto pos = steps.begin(); pos != steps.end(); ++pos)
-		if ((*pos) < (*minpos))
+		if ((*pos).val <= (*minpos).val)
 			minpos = pos;
 
 	return minpos;
@@ -183,7 +183,7 @@ Direction AI::AStar(Pos dest, std::vector<Item*>& items)
 			{
 				// if the position in steps
 				// and the value is smaller than the existing ones
-				if (next < *pos)
+				if (next.val < (*pos).val)
 				{
 					// update the value and cell data
 					next_cell.fromDirection = (Direction)(i + 1);
@@ -214,7 +214,7 @@ void AI::RenderStep(Pos pos, Direction dir, Color color)
 		Utils::Print("^", pos, color);
 		break;
 	case Direction::DOWN:
-		Utils::Print("|", pos, color);
+		Utils::Print("v", pos, color);
 		break;
 	case Direction::LEFT:
 		Utils::Print("<", pos, color);

@@ -18,7 +18,7 @@ bool Utils::THROUGHWALL = true;
 bool Utils::SKIPSLEEP = false;
 bool Utils::AIMODE = false;
 bool Utils::DEBUG = false;
-std::string Utils::VERSION = "V3.6.4";
+std::string Utils::VERSION = "V3.6.5";
 
 void Utils::To(int x, int y)
 {

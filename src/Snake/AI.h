@@ -46,9 +46,6 @@ namespace GZ {
 		bool operator==(const SortablePos& other) const {
 			return pos == other.pos;
 		}
-		bool operator<(const SortablePos& other) const {
-			return val < other.val;
-		}
 	};
 
 	/// <summary>
