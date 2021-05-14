@@ -64,11 +64,6 @@ namespace GZ {
 		/// </summary>
 		std::vector<SortablePos> steps;
 
-		/// <summary>
-		/// The array of positions, which is already searched.
-		/// </summary>
-		std::vector<SortablePos> finished_steps;
-
 		bool drawStep;
 
 		/// <summary>

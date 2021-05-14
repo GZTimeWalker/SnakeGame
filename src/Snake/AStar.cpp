@@ -48,20 +48,16 @@ void AStar::Clean()
 			ele.fromDirection = Direction::NONE;
 		}
 	}
-	finished_steps.clear();
 	steps.clear();
 }
 
 Direction AStar::Step(Pos dest, Snake* snake, std::vector<Item*>& items)
 {
 
-	for (auto step = finished_steps.begin(); step != finished_steps.end(); ++step)
-		if ((*step).pos == snake->Head)
-		{
-			auto dir = Forward(snake->Head);
-			finished_steps.erase(step);
-			return dir;
-		}
+
+	auto dir = Forward(snake->Head);
+	if (dir != Direction::NONE)
+		return dir;
 
 	// ready to find path
 
@@ -99,7 +95,6 @@ Direction AStar::Step(Pos dest, Snake* snake, std::vector<Item*>& items)
 		if (Utils::DEBUG && drawStep)
 			RenderStep(cur.pos, cell.fromDirection, Color::B_RED);
 
-		finished_steps.push_back(cur);
 		steps.erase(curitr);
 
 		// for every direction
@@ -119,7 +114,7 @@ Direction AStar::Step(Pos dest, Snake* snake, std::vector<Item*>& items)
 
 			if (next.pos == head)
 			{
-				next.val == next_cell.step_count + 1;
+				next.val = next_cell.step_count + 1;
 				next_cell.fromDirection = (Direction)((i + 2) % 4);
 				next_cell.step_count = cell.step_count + 1;
 				next_cell.dis = 0;

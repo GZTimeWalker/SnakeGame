@@ -163,12 +163,6 @@ int Snake::Move(Pos food, std::vector<Item*>& items)
     if (Utils::AIMODE)
         Toward = ai->Step(food, items, getitem);
 
-    // if in debug mode, redraw the snake to avoid it to be covered.
-    if (Utils::DEBUG)
-    {
-        Draw();
-    }
-
     // remove the item
 
     if (getitem != items.end())
@@ -220,7 +214,7 @@ void Snake::Update(bool trim)
 void Snake::Draw()
 {
     Utils::SetColor(Color::YELLOW);
-    for (unsigned int i = 0; i < length - 1; ++i)
+    for (int i = 0; i < length - 1; ++i)
         Utils::Print("*", Body[i]);
     Utils::Print("@", Head);
     Utils::SetColor(Color::ORIGIN);
