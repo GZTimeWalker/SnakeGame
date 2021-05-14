@@ -49,8 +49,7 @@ namespace GZ {
         /// Update the snake on the map.
         /// </summary>
         /// <param name="trim">Whether to trim the snake tail</param>
-        /// <returns>the position of trimed block</returns>
-        Pos Update(bool trim);
+        void Update(bool trim);
 
         /// <summary>
         /// Returns whether the next position is safe.
@@ -77,7 +76,7 @@ namespace GZ {
         Snake(AI* ai);
 
         /// <summary>
-        /// Returns whether the snake's body has the position.
+        /// Returns whether the snake's body has the position.(except tail)
         /// </summary>
         /// <param name="pos">position</param>
         bool HasPos(Pos pos);
@@ -102,7 +101,7 @@ namespace GZ {
         /// </summary>
         /// <param name="food">food position</param>
         /// <param name="items">the array of items</param>
-        /// <returns></returns>
+        /// <returns>score</returns>
         int Move(Pos food, std::vector<Item*>& items);
 
         /// <summary>

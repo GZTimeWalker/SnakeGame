@@ -12,7 +12,6 @@ using namespace GZ;
 Snake::Snake(AI* ai)
 {
     this->ai = ai;
-    this->ai->SetSnake(this);
 
     isAlive = true;
     trimTail = true;
@@ -27,11 +26,13 @@ Snake::Snake(AI* ai)
         Head = {(Utils::WIDTH - 12) / 2, Utils::HEIGHT / 2 + 2 - i };
         Body.push_back(Head);
     }
+
+    this->ai->SetSnake(this);
 }
 
 bool Snake::HasPos(Pos pos)
 {
-    for (auto& p : Body)
+    for (auto &p: Body)
         if (pos == p)
             return true;
     return false;
@@ -136,8 +137,6 @@ int Snake::Move(Pos food, std::vector<Item*>& items)
 
     Body.push_back(Head);
 
-    Pos lastTail = { -1, -1 };
-
     // if did not touch any item
 
     if (!score)
@@ -147,7 +146,7 @@ int Snake::Move(Pos food, std::vector<Item*>& items)
 
         // update the snake
         // trim tail when didn't get the food and trimTail flag is true
-        lastTail = Update(!getfood && trimTail);
+        Update(!getfood && trimTail);
 
         // update the score
         if(getfood)
@@ -156,13 +155,19 @@ int Snake::Move(Pos food, std::vector<Item*>& items)
     else 
     {
         // update the snake with trimTail flag
-        lastTail = Update(trimTail);
+        Update(trimTail);
     }
     
     // let AI to choose where to go next.
 
     if (Utils::AIMODE)
-        Toward = ai->Step(food, items, getitem, lastTail);
+        Toward = ai->Step(food, items, getitem);
+
+    // if in debug mode, redraw the snake to avoid it to be covered.
+    if (Utils::DEBUG)
+    {
+        Draw();
+    }
 
     // remove the item
 
@@ -175,7 +180,7 @@ int Snake::Move(Pos food, std::vector<Item*>& items)
     return score;
 }
 
-Pos Snake::Update(bool trim)
+void Snake::Update(bool trim)
 {
     // last head become body, and head need to draw
     Utils::Print("*", Body[length - 1], Color::YELLOW);
@@ -198,7 +203,7 @@ Pos Snake::Update(bool trim)
             --length;
         }
 
-        return tail;
+        return;
     }
 
     // use this to lengthen your snake
@@ -209,7 +214,7 @@ Pos Snake::Update(bool trim)
     length += 1;
     award += 1;
 
-    return { -1, -1 };
+    return;
 }
 
 void Snake::Draw()

@@ -40,11 +40,11 @@ namespace GZ {
     /// </summary>
     enum class Direction : int
     {
-        NONE = 0,
-        UP = 1,
+        NONE = -1,
+        UP = 0,
+        LEFT = 1,
         DOWN = 2,
-        LEFT = 3,
-        RIGHT = 4
+        RIGHT = 3
     };
 
     /// <summary>

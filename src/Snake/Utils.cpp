@@ -18,7 +18,7 @@ bool Utils::THROUGHWALL = true;
 bool Utils::SKIPSLEEP = false;
 bool Utils::AIMODE = false;
 bool Utils::DEBUG = false;
-std::string Utils::VERSION = "V3.6.5";
+std::string Utils::VERSION = "V3.7.2";
 
 void Utils::To(int x, int y)
 {
@@ -143,18 +143,10 @@ Direction Utils::Opposite(Direction dir)
 {
     switch (dir)
     {
-    case Direction::UP:
-        return Direction::DOWN;
-    case Direction::DOWN:
-        return Direction::UP;
-    case Direction::LEFT:
-        return Direction::RIGHT;
-    case Direction::RIGHT:
-        return Direction::LEFT;
     case Direction::NONE:
         return Direction::NONE;
     default:
-        throw unknown_direction();
+        return (Direction)(((int)dir + 2) % 4);
     }
 }
 
