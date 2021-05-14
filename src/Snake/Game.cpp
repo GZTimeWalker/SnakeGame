@@ -1,4 +1,5 @@
 ﻿#include "Game.h"
+#include "AI.h"
 
 #include <conio.h>
 #include <Windows.h>
@@ -18,7 +19,7 @@ Game::Game()
     ai->SetSnake(snake);
 
     DrawMap();
-    Utils::PrintLine("Press S to start!   ", { -Utils::X_OFFSET, 22 }, Color::RED);
+    Utils::PrintLine("Press S to start!   ", { -Utils::X_OFFSET, Utils::INFOHEIGHT }, Color::RED);
 }
 
 Game::~Game()
@@ -43,7 +44,7 @@ void Game::Main()
                 Utils::Config();
                 Utils::Resize();
                 Clear();
-                Utils::PrintLine("Press S to start!   ", { -Utils::X_OFFSET, 22 }, Color::RED);
+                Utils::PrintLine("Press S to start!   ", { -Utils::X_OFFSET, Utils::INFOHEIGHT }, Color::RED);
             }
         }
     }
@@ -90,6 +91,7 @@ void Game::DrawMap()
     Utils::PrintLine("Use 1 to SPEED UP");
     Utils::PrintLine("Use 2 to SLOW DOWN");
     Utils::PrintLine("Use c to CONFIG");
+    Utils::PrintLine("Use 0 to STOP");
 
     Utils::PrintLine("      " + Utils::VERSION + "      ", {-Utils::X_OFFSET, Utils::HEIGHT - 5});
     Utils::PrintLine("  Made by GZTime  ");
@@ -123,7 +125,7 @@ void Game::Run()
 
     Clear();
 
-    Utils::PrintLine("Press 3 to pause!   ", { -Utils::X_OFFSET, 22 }, Color::RED);
+    Utils::PrintLine("Press 3 to pause!   ", { -Utils::X_OFFSET, Utils::INFOHEIGHT }, Color::RED);
 
     // main game event loop
     while (true)
@@ -136,14 +138,14 @@ void Game::Run()
                 if (ch == '3')
                 {
                     pause = false;
-                    Utils::PrintLine("Press 3 to pause!   ", { -Utils::X_OFFSET, 22 }, Color::RED);
+                    Utils::PrintLine("Press 3 to pause!   ", { -Utils::X_OFFSET, Utils::INFOHEIGHT }, Color::RED);
                 }
                 else if (ch == 'c' || ch == 'C')
                 {
                     Utils::Config();
                     Utils::Resize();
                     Clear();
-                    Utils::PrintLine("Press 3 to pause!   ", { -Utils::X_OFFSET, 22 }, Color::RED);
+                    Utils::PrintLine("Press 3 to pause!   ", { -Utils::X_OFFSET, Utils::INFOHEIGHT }, Color::RED);
                 }
             }
         }
@@ -191,7 +193,7 @@ void Game::Run()
                         item->Show();
                     snake->Draw();
                     DrawMap();
-                    Utils::PrintLine("Press 3 to pause!   ", { -Utils::X_OFFSET, 22 }, Color::RED);
+                    Utils::PrintLine("Press 3 to pause!   ", { -Utils::X_OFFSET, Utils::INFOHEIGHT }, Color::RED);
                 }
             }
 
@@ -206,7 +208,7 @@ void Game::Run()
         }
     }
 
-    Utils::PrintLine("Press S to restart! ", { -Utils::X_OFFSET, 22 }, Color::RED);
+    Utils::PrintLine("Press S to restart! ", { -Utils::X_OFFSET, Utils::INFOHEIGHT }, Color::RED);
 
     isRunning = false;
 }
@@ -371,14 +373,17 @@ void Game::ListenKeyBoard()
             break;
         case '3':
             pause = true;
-            Utils::PrintLine("Press 3 to continue!", { -Utils::X_OFFSET, 22 }, Color::RED);
+            Utils::PrintLine("Press 3 to continue!", { -Utils::X_OFFSET, Utils::INFOHEIGHT }, Color::RED);
+            break;
+        case '0':
+            snake->Die();
             break;
         case 'c':
         case 'C':
             Utils::Config();
             Utils::Resize();
             Clear();
-            Utils::PrintLine("Press 3 to pause!   ", { -Utils::X_OFFSET, 22 }, Color::RED);
+            Utils::PrintLine("Press 3 to pause!   ", { -Utils::X_OFFSET, Utils::INFOHEIGHT }, Color::RED);
             break;
         default:
             if (Utils::AIMODE)

@@ -8,7 +8,7 @@ using namespace std;
 AI::AI()
 {
     snake = nullptr;
-    shortestPathToFood = new AStar(true);
+    shortestPathToFood = new AStar();
 }
 
 AI::~AI()
@@ -29,12 +29,11 @@ Direction AI::Wander()
         // try to go to the next position safely
         // but this method is stupid (:
         next = Utils::EnsureRange(snake->Head + (Direction)dir);
-        if (!snake->HasPos(next) && (Utils::THROUGHWALL || !Utils::OutOfRange(next)))
+        if (!snake->HasPos(next) && !Utils::OutOfRange(next))
             return (Direction)dir;
     }
     return Direction::NONE;
 }
-
 
 
 Direction AI::Step(Pos food, std::vector<Item*>& items, std::vector<Item*>::iterator& getitem)

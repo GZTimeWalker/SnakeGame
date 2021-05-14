@@ -126,6 +126,11 @@ namespace GZ {
         /// </summary>
         /// <param name="len">numbers of blocks to cut.</param>
         void CutLength(int len);
+
+        /// <summary>
+        /// Force to die.
+        /// </summary>
+        void Die();
     };
 }
 

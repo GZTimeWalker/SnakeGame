@@ -64,8 +64,6 @@ namespace GZ {
 		/// </summary>
 		std::vector<SortablePos> steps;
 
-		bool drawStep;
-
 		/// <summary>
 		/// Last destination.
 		/// </summary>
@@ -92,7 +90,7 @@ namespace GZ {
 		Direction Forward(Pos from);
 
 	public:
-		AStar(bool drawstep = false);
+		AStar();
 		~AStar();
 
 		/// <summary>

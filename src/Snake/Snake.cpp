@@ -250,7 +250,12 @@ int Snake::Length()
     return length;
 }
 
-int GZ::Snake::Award()
+int Snake::Award()
 {
     return award;
+}
+
+void Snake::Die()
+{
+    isAlive = false;
 }

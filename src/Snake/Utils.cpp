@@ -13,12 +13,16 @@ int Utils::HEIGHT = 32;
 int Utils::WIDTH = 70;
 int Utils::ITEMCOUNT = 3;
 int Utils::ITEMRATE = 100;
+
 unsigned int Utils::ITEMFLAG = (unsigned int)ItemType::ALL;
+
 bool Utils::THROUGHWALL = true;
 bool Utils::SKIPSLEEP = false;
 bool Utils::AIMODE = false;
 bool Utils::DEBUG = false;
-std::string Utils::VERSION = "V3.7.3";
+
+std::string Utils::VERSION = "V3.7.4";
+int Utils::INFOHEIGHT = 23;
 
 void Utils::To(int x, int y)
 {
@@ -124,16 +128,16 @@ void Utils::Resize()
 
 Pos Utils::EnsureRange(Pos pos)
 {
-    if (GZ::Utils::THROUGHWALL)
+    if (Utils::THROUGHWALL)
     {
         if (pos.x == 0)
-            pos.x = GZ::Utils::WIDTH - 2;
-        else if (pos.x == GZ::Utils::WIDTH - 1)
+            pos.x = Utils::WIDTH - 2;
+        else if (pos.x == Utils::WIDTH - 1)
             pos.x = 1;
 
         if (pos.y == 0)
-            pos.y = GZ::Utils::HEIGHT - 2;
-        else if (pos.y == GZ::Utils::HEIGHT - 1)
+            pos.y = Utils::HEIGHT - 2;
+        else if (pos.y == Utils::HEIGHT - 1)
             pos.y = 1;
     }
     return pos;
@@ -171,48 +175,48 @@ void Utils::Init()
     srand((unsigned int)time(0));
 }
 
-void GZ::Utils::Print(std::string msg)
+void Utils::Print(std::string msg)
 {
     std::cout << msg;
 }
 
-void GZ::Utils::Print(std::string msg, Pos pos)
+void Utils::Print(std::string msg, Pos pos)
 {
     To(pos);
     std::cout << msg;
 }
 
-void GZ::Utils::Print(std::string msg, Color color)
+void Utils::Print(std::string msg, Color color)
 {
     SetColor(color);
     std::cout << msg;
 }
 
-void GZ::Utils::Print(std::string msg, Pos pos, Color color)
+void Utils::Print(std::string msg, Pos pos, Color color)
 {
     To(pos);
     SetColor(color);
     std::cout << msg;
 }
 
-void GZ::Utils::PrintLine(std::string msg)
+void Utils::PrintLine(std::string msg)
 {
     std::cout << msg << std::endl;
 }
 
-void GZ::Utils::PrintLine(std::string msg, Pos pos)
+void Utils::PrintLine(std::string msg, Pos pos)
 {
     To(pos);
     std::cout << msg << std::endl;
 }
 
-void GZ::Utils::PrintLine(std::string msg, Color color)
+void Utils::PrintLine(std::string msg, Color color)
 {
     SetColor(color);
     std::cout << msg << std::endl;
 }
 
-void GZ::Utils::PrintLine(std::string msg, Pos pos, Color color)
+void Utils::PrintLine(std::string msg, Pos pos, Color color)
 {
     To(pos);
     SetColor(color);

@@ -166,6 +166,11 @@ namespace GZ {
         static unsigned int ITEMFLAG;
 
         /// <summary>
+        /// The height to show dynamic infomation.
+        /// </summary>
+        static int INFOHEIGHT;
+
+        /// <summary>
         /// Initialization window and random seed.
         /// </summary>
         static void Init();
